@@ -53,9 +53,8 @@ const Navbar = () => {
             </button>
             </div>
 
-            {/* Contact and Icons */}
             <div className="flex items-center space-x-4">
-            
+            {/* menu button */}
             <button className="text-gray-600">
                 <svg
                 className="w-6 h-6"
@@ -72,6 +71,8 @@ const Navbar = () => {
                 ></path>
                 </svg>
             </button>
+            
+            {/* account button */}
             <button className="text-gray-600">
                 <svg
                 className="w-6 h-6"
@@ -92,7 +93,8 @@ const Navbar = () => {
             </div>
         </div>
       </div>
-      <div className = 'container mx-auto flex justify-between items-center p-2'>
+      {/* Page and contact */}
+      <div className = 'container mx-auto flex justify-between items-center p-4'>
             <nav className="hidden lg:flex space-x-4">
                 <a href="/" className="text-gray-600 hover:text-blue-600">
                 Home
