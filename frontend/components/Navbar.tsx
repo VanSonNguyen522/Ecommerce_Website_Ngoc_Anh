@@ -1,5 +1,6 @@
 // src/components/Navbar.jsx
 import React from "react";
+import Image from "next/image";
 
 const Navbar = () => {
   return (
@@ -56,20 +57,7 @@ const Navbar = () => {
             <div className="flex items-center space-x-4">
             {/* menu button */}
             <button className="text-gray-600">
-                <svg
-                className="w-6 h-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-                >
-                <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M3 3h18M3 9h18M3 15h18M3 21h18"
-                ></path>
-                </svg>
+                <Image src='assets/icons/menu.svg' width = {30} height={30} alt="menu"/>
             </button>
             
             {/* account button */}

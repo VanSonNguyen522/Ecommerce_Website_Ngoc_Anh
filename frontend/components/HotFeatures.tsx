@@ -1,4 +1,6 @@
-import React from 'react'
+"use client";
+
+import React, { useRef } from 'react';
 import Image from 'next/image';
 
 interface Product {
@@ -21,40 +23,53 @@ const products: Product[] = [
   {
     id: 2,
     name: 'Phi 12',
-    price: '70.000 vnd',
-    salePrice: '65.000 vnd',
+    price: '70,000 vnd',
+    salePrice: '65,000 vnd',
     image: "/assets/images/Hot_Features/Phi_12.jpg",
     isNew: false,
   },
   {
     id: 3,
     name: 'Ốc vít',
-    price: '1.000 vnd',
+    price: '1,000 vnd',
     image: "/assets/images/Hot_Features/Oc_vit.jpg",
-    isNew: false,
+    isNew: true,
   },
   {
     id: 4,
     name: 'Bảng mã',
-    price: '12.000 vnd',
+    price: '12,000 vnd',
     image: '/assets/images/Hot_Features/Bang_ma.jpg',
     isNew: false,
   },
+  {
+    id: 5,
+    name: 'Mâm cầu thang',
+    price: '200,000 vnd',
+    image: '/assets/images/Hot_Features/Bang_ma.jpg',
+    isNew: true,
+  },
+  {
+    id: 6,
+    name: 'Giàn giáo',
+    price: '480,000 vnd',
+    salePrice: '440,000 vnd',
+    image: '/assets/images/Hot_Features/Bang_ma.jpg',
+    isNew: false,
+  }
 ];
 
-
 const ProductCard: React.FC<Product> = ({ name, price, salePrice, image, isNew }) => {
-    return (
-      <div style={styles.productCard}>
-        {isNew && <span style={{ ...styles.badge, ...styles.newBadge }}>New</span>}
-        {salePrice && <span style={{ ...styles.badge, ...styles.saleBadge }}>Sale</span>}
-        <div style={styles.imageWrapper}>
-            <Image src={image} alt={name} width={100} height={100} style={styles.productImage} />
-        </div>
-        <div style={styles.productInfo}>
-        <h3 style={styles.nameProduct}>{name}</h3>
-        {/* <div style={styles.iconWrapper}></div> */}
-        <button style={styles.cartButton}>
+  return (
+    <div className="relative w-72 h-80 p-6 bg-white rounded-lg shadow-lg text-left flex-shrink-0">
+      {isNew && <span className="absolute top-2 left-2 px-3 py-1 bg-green-500 text-white text-xs rounded">New</span>}
+      {salePrice && <span className="absolute top-2 left-2 px-3 py-1 bg-red-500 text-white text-xs rounded">Sale</span>}
+      <div className="flex justify-center items-center h-36 mb-5">
+        <Image src={image} alt={name} width={200} height={200} className="rounded-lg" />
+      </div>
+      <div className="flex justify-between items-center mb-2">
+        <h3 className="text-lg font-bold">{name}</h3>
+        <button className="bg-gray-200 p-2 rounded-full">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -63,141 +78,72 @@ const ProductCard: React.FC<Product> = ({ name, price, salePrice, image, isNew }
             strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
-            style={styles.cartIcon}
+            className="w-4 h-4"
           >
             <circle cx="9" cy="21" r="1"></circle>
             <circle cx="20" cy="21" r="1"></circle>
             <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61l1.38-7.38H6"></path>
           </svg>
         </button>
-        </div>
-            <p style={styles.price}>
-            {salePrice ? (
-                <>
-                <span style={styles.salePrice}>{price}</span> <span style={styles.originalPrice}>{salePrice}</span>
-                </>
-            ) : (
-                price
-            )}
-            </p>
       </div>
-    );
+      <p className="text-lg font-bold">
+        {salePrice ? (
+          <>
+            <span className="text-red-500 line-through mr-2">{price}</span> 
+            <span className="text-black">{salePrice}</span>
+          </>
+        ) : (
+          price
+        )}
+      </p>
+    </div>
+  );
+};
+
+const HotFeatures: React.FC = () => {
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  const scroll = (direction: 'left' | 'right') => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({
+        left: direction === 'left' ? -300 : 300,  // Scroll by one card width
+        behavior: 'smooth',
+      });
+    }
   };
 
-
-
-  const HotFeatures: React.FC = () => {
-    return (
-      <div style={styles.container}>
-        <h1 className='text-bold text-[30px] text-left p-3'>Hàng Hóa Nổi Bật</h1>
-        <div style={styles.productList}>
+  return (
+    <div className="p-16 bg-white">
+      <h1 className="font-bold text-2xl text-left p-3 px-20">Hàng Hóa Nổi Bật</h1>
+      <div className="relative flex items-center justify-center py-10">
+        <button
+          className="absolute left-0 bg-gray-200 p-2 rounded-full z-10"
+          onClick={() => scroll('left')}
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+        <div
+          ref={scrollRef}
+          className="flex overflow-x-scroll scroll-smooth scrollbar-hide space-x-5"
+          style={{ width: '1200px' }} // Fixed width for 4 cards
+        >
           {products.map((product) => (
             <ProductCard key={product.id} {...product} />
           ))}
         </div>
+        <button
+          className="absolute right-0 bg-gray-200 p-2 rounded-full z-10"
+          onClick={() => scroll('right')}
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
       </div>
-    );
-  };
+    </div>
+  );
+};
 
-const styles: { [key: string]: React.CSSProperties } = {
-    container: {  
-      padding: '70px',
-      textAlign: 'center',
-      backgroundColor: 'white',
-    },
-    productList: {
-      display: 'flex',
-      justifyContent: 'space-around',
-      flexWrap: 'wrap',
-      gap: '20px',
-    },
-    productCard: {
-      position: 'relative',
-      width: '290px',
-      height: '320px',
-      padding: '30px',
-      backgroundColor: 'white',
-      borderRadius: '8px',
-      boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-      textAlign: 'left',
-    },
-    imageWrapper: {
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '150px',
-        marginBottom: '20px',
-    },
-    productImage: {
-      width: '200px',
-      height: '200px',
-      borderRadius: '10px',
-      alignItems:'center',
-    },
-    badge: {
-      position: 'absolute',
-      top: '10px',
-      left: '10px',
-      padding: '5px 10px',
-      color: 'white',
-      borderRadius: '5px',
-      fontSize: '12px',
-    },
-    newBadge: {
-      backgroundColor: 'green',
-    },
-    saleBadge: {
-      backgroundColor: 'red',
-    },
-    price: {
-      marginTop: '2px',
-      fontSize: '18px',
-      fontWeight: 'bold',
-    },
-    salePrice: {
-      color: 'red',
-      textDecoration: 'line-through',
-      marginRight: '10px',
-    },
-    originalPrice: {
-      color: 'black',
-    },
-    nameProduct: {
-        fontSize: '19px',
-        padding: '0px',
-        fontWeight: '800px',
-        paddingTop: '20px',
-        marginRight: '10px',
-        marginBottom:'5px',
-    },
-    productInfo: {
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        marginBottom: '10px',
-    },
-    iconWrapper: {
-        backgroundColor: '#f4f4f4',
-        padding: '8px',
-        borderRadius: '50%',
-        fontSize:'18px',
-    },
-    cartIcon: {
-        width: '16px',
-        height: '16px',
-    },
-    cartButton: {
-        backgroundColor: '#f4f4f4',
-        padding: '8px',
-        borderRadius: '50%',
-        border: 'none',
-        cursor: 'pointer',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-      },
-  };
-  
-
-export default HotFeatures
-
+export default HotFeatures;
