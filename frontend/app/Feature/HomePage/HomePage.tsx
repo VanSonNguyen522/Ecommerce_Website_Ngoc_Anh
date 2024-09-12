@@ -7,7 +7,6 @@ import Product_Demo from '@/components/Product_Demo'
 const HomePage = () => {
   return (
     <div>
-
       <Navbar />
       <Content />
       <Hero />

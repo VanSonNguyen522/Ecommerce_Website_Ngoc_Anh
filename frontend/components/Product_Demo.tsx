@@ -28,9 +28,9 @@ const Product_Demo = () => {
   };
 
   return (
-    <div className="bg-white px-4">
-      <h2 className="text-2xl font-bold text-center mb-8">Sản Phẩm Của Chúng Tôi</h2>
-      <div className="flex justify-center mb-4 py-6">
+    <div className="bg-white px-4 py-8">
+      <h2 className="text-3xl font-bold text-center mb-8">Sản Phẩm Của Chúng Tôi</h2>
+      <div className="flex justify-center mb-4 py-4">
         <nav className="flex space-x-4">
           <button onClick={(e) => { e.preventDefault(); handleCategoryChange('all'); }} className={`text-gray-500 hover:text-gray-900 ${selectedCategory === 'all' ? 'font-bold' : ''}`}>ALL</button>
           <button onClick={(e) => { e.preventDefault(); handleCategoryChange('newest'); }} className={`text-gray-500 hover:text-gray-900 ${selectedCategory === 'newest' ? 'font-bold' : ''}`}>NEWEST</button>
