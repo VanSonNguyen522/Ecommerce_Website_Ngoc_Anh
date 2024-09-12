@@ -85,7 +85,7 @@ const products: Product[] = [
 
 const ProductCard: React.FC<Product> = ({ name, price, salePrice, image, isNew }) => {
   return (
-    <div className="relative w-72 h-80 p-6 bg-white rounded-lg shadow-lg text-left flex-shrink-0">
+    <div className="relative w-72 h-80 p-6 bg-white border-solid border-2 rounded-lg shadow-lg text-left flex-shrink-0">
       {isNew && <span className="absolute top-2 left-2 px-3 py-1 bg-green-500 text-white text-xs rounded">New</span>}
       {salePrice && <span className="absolute top-2 left-2 px-3 py-1 bg-red-500 text-white text-xs rounded">Sale</span>}
       <div className="flex justify-center items-center h-36 mb-5">
@@ -130,7 +130,7 @@ const HotFeatures: React.FC = () => {
   const scroll = (direction: 'left' | 'right') => {
     if (scrollRef.current) {
       scrollRef.current.scrollBy({
-        left: direction === 'left' ? -320 : 320,  // Scroll by one card width
+        left: direction === 'left' ? -308 : 308,  // Scroll by one card width
         behavior: 'smooth',
       });
     }
@@ -151,7 +151,7 @@ const HotFeatures: React.FC = () => {
         <div
           ref={scrollRef}
           className="flex overflow-x-scroll scroll-smooth scrollbar-hide space-x-5"
-          style={{ width: '1200px' }} // Fixed width for 4 cards
+          style={{ width: '1220px' }} // Fixed width for 4 cards
         >
           {products.map((product) => (
             <ProductCard key={product.id} {...product} />
