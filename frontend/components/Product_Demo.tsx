@@ -9,10 +9,10 @@ const products = [
   { id: 2, image: '/assets/images/Product_Demo/Gach_Don.jpg', name: 'Gạch Đơn', price: '7,000 vnd', oldPrice: '8,000 vnd', category: 'trending' },
   { id: 3, image: '/assets/images/Product_Demo/Cat_Xay_Dung.jpg', name: 'Cát xây dựng', price: '20,000 vnd', category: 'best-sellers' },
   { id: 4, image: '/assets/images/Product_Demo/Coffa.jpg', name: 'Coffa', price: '300,000 vnd', category: 'featured' },
-  { id: 5, image: '/assets/images/Product_Demo/Van_ep.jpg', name: 'Ván ép', price: '160,000 vnd', oldPrice: '150,000 vnd', category: 'trending' },
-  { id: 6, image: '/assets/images/Product_Demo/Ton_Mau.jpg', name: 'Tôn màu', price: '125,000 vnd', oldPrice: '110,000 vnd', category: 'best-sellers' },
-  { id: 7, image: '/assets/images/Product_Demo/Ton_Nhua.jpg', name: 'Tôn nhựa', price: '90,000 vnd', oldPrice: '85,000 vnd', category: 'featured' },
-  { id: 8, image: '/assets/images/Product_Demo/Luoi_B40.jpg', name: 'Lưới B40', price: '70,000 vnd', oldPrice: '65,000 vnd', category: 'newest' },
+  { id: 5, image: '/assets/images/Product_Demo/Van_ep.jpg', name: 'Ván ép', price: '150,000 vnd', oldPrice: '160,000 vnd', category: 'trending' },
+  { id: 6, image: '/assets/images/Product_Demo/Ton_Mau.jpg', name: 'Tôn màu', price: '110,000 vnd', oldPrice: '125,000 vnd', category: 'best-sellers' },
+  { id: 7, image: '/assets/images/Product_Demo/Ton_Nhua.jpg', name: 'Tôn nhựa', price: '85,000 vnd', oldPrice: '90,000 vnd', category: 'featured' },
+  { id: 8, image: '/assets/images/Product_Demo/Luoi_B40.jpg', name: 'Lưới B40', price: '65,000 vnd', oldPrice: '70,000 vnd', category: 'newest' },
   // Add more products as needed
 ];
 

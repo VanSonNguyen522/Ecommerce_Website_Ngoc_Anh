@@ -93,7 +93,7 @@ const ProductCard: React.FC<Product> = ({ name, price, salePrice, image, isNew }
       </div>
       <div className="flex justify-between items-center mb-2 py-4 ">
         <h3 className="text-lg font-bold">{name}</h3>
-        <button className="bg-gray-200 p-2 rounded-full">
+        <button className="bg-gray-200 p-2 rounded-full hover:scale-110 transition-transforms duration-200 hover:bg-green-200">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
