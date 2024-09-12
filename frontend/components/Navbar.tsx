@@ -106,7 +106,7 @@ const Navbar = () => {
                 About
                 </a>
             </nav>
-            <span className="text-gray-600 hidden lg:block">Contact: 0914132797</span>
+            <span className="text-gray-600 hidden lg:block ">Contact: 0914132797</span>
         </div>
     </header>
   );

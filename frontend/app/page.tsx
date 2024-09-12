@@ -1,7 +1,4 @@
-import Image from "next/image";
-import Navbar from "@/components/Navbar";
-import Content from "@/components/Content"
-import HomePage from "./Feature/HomePage";
+import HomePage from "./Feature/HomePage/HomePage";
 
 const App: React.FC = () => {
   return (

@@ -38,8 +38,8 @@ import React from 'react';
 
 const Hero: React.FC = () => {
   return (
-    <section className="flex items-center justify-center p-4 bg-gray-50">
-      <div className="relative w-3/4 bg-yellow-100 shadow-lg rounded-lg overflow-hidden">
+    <section className="flex items-center justify-center p-4 bg-white">
+      <div className="relative w-3/4 rounded-lg overflow-hidden">
         {/* Image Section */}
         <img
           src="../../../assets/images/Hero.png"
