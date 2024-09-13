@@ -1,8 +1,17 @@
+"use client"
 // src/components/Navbar.jsx
-import React from "react";
+import React , {useState} from "react";
 import Image from "next/image";
+import NavDropDown_menu from "./NavDropDown_menu";
+
 
 const Navbar = () => {
+    const [openNav , setOpenNav] = useState(false)
+
+    const handleNavbarClick = () => {
+        setOpenNav(!openNav)
+    }
+
   return (
     <header className="bg-white shadow py-0 w-full top-0 items-center justify-center">
       <div className="bg-gray-100 w-full  mx-auto flex justify-between items-center p-2">
@@ -56,8 +65,9 @@ const Navbar = () => {
 
             <div className="flex items-center space-x-4">
             {/* menu button */}
-            <button className="text-gray-600">
-                <Image src='assets/icons/menu.svg' width = {30} height={30} alt="menu"/>
+            <button onClick ={handleNavbarClick} className="text-gray-600 flex items-center">
+                {/* <Image src='assets/icons/menu.svg' width = {30} height={30} alt="menu"/> */}
+                <NavDropDown_menu/>
             </button>
             
             {/* account button */}
@@ -83,6 +93,21 @@ const Navbar = () => {
       </div>
       {/* Page and contact */}
       <div className = 'container mx-auto flex justify-between items-center p-4'>
+            {/* {openNav && (
+                 <nav className="hidden lg:flex space-x-4">
+                    <a href="/" className="text-gray-600 hover:text-blue-600">
+                    Home
+                    </a>
+                    <a href="/product" className="text-gray-600 hover:text-blue-600">
+                    Product
+                    </a>
+                    <a href="/about" className="text-gray-600 hover:text-blue-600">
+                    About
+                    </a>
+                </nav>
+            )} */}
+
+
             <nav className="hidden lg:flex space-x-4">
                 <a href="/" className="text-gray-600 hover:text-blue-600">
                 Home
