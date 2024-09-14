@@ -16,6 +16,8 @@
     "prisma": "^5.19.1"
   },
   "devDependencies": {
-    "@prisma/client": "^5.19.1"
+    "@prisma/client": "^5.19.1",
+    "@types/bcrypt": "^5.0.2",
+    "@types/node": "^22.5.5"
   }
 }
