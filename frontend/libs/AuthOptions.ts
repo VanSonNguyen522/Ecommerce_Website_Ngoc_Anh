@@ -31,9 +31,10 @@ export const authOptions: AuthOptions = {
 
                 const currentHashedPassword = await bcrypt.hash(credentials.password, 12);
 
-                if(currentHashedPassword === user.hashedPassword) {
-                    throw new Error("User not register");
-                }
+                // if(currentHashedPassword === user.hashedPassword) {
+                //     throw new Error("User not register");
+                // }
+                bcrypt.compare(currentHashedPassword, user.hashedPassword);
 
                 return user;
             },

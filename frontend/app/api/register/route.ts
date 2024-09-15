@@ -20,7 +20,7 @@ export async function POST(
             }
         })
 
-        if(!userAlreadyExist?.id){
+        if(userAlreadyExist?.id){
             return new NextResponse("User already exist", { status: 500 })
         }
 

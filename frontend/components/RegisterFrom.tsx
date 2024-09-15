@@ -23,14 +23,14 @@ export default function RegisterFrom() {
         try {
             await axios.post("/api/register", { email , password }) 
 
-            await signIn("credentials", {
-                email, password,
-                redirect: false, 
-            })
+            // await signIn("credentials", {
+            //     email, password,
+            //     redirect: false, 
+            // })
 
             toast.success("Successfully Register");
 
-            router.push("/");
+            router.push("/signin");
         }
         catch (err: any)
         {
@@ -41,8 +41,6 @@ export default function RegisterFrom() {
         finally {
             setLoading(false)
         }
-
-
     }
     return (
         <div className='space-y-5 flex flex-col items-center' >
@@ -63,7 +61,7 @@ export default function RegisterFrom() {
 
             <div 
                 onClick={register}
-                className='px-10 py-3 bg-neutral-900 rounded-full text-white disabled:text-white disabled:opacity-70 '
+                className='px-10 py-3 bg-neutral-900 rounded-full text-white disabled:text-white disabled:opacity-70 cursor-pointer'
             >
                 Register
             </div>
