@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import NextAuthSessionProvider from '../../backend/providers/NextAuthSessionProvider';
-import ToastProvider from '../../backend/providers/ToastProvider';
+import NextAuthSessionProvider from '../providers/NextAuthSessionProvider';
+import ToastProvider from '../providers/ToastProvider';
 
 const inter = Inter({ subsets: ["latin"] });
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import { getServerSession } from 'next-auth'
-import { authOptions } from '../../../backend/libs/AuthOptions';
+import { authOptions } from '@/libs/AuthOptions';
 import { redirect } from 'next/navigation';
 
 interface ProtectedRootLayoutProps{
