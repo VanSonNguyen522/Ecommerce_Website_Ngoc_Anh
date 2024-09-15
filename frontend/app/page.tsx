@@ -5,7 +5,7 @@ const App: React.FC = () => {
   return (
     <div>
       {/* <HomePage /> */}
-      <LoginPage />
+      <HomePage/>
     </div>
   );
 };
