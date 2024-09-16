@@ -1,5 +1,5 @@
-import LoginPage from "./(root)/Loginpage";
-import HomePage from "./Feature/HomePage/HomePage";
+
+import HomePage from "../Pages/HomePage/HomePage";
 
 const App: React.FC = () => {
   return (
