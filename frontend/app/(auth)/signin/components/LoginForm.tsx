@@ -1,14 +1,19 @@
 "use client"
 
-import React, { useState } from 'react'
-import Input from './Input'
+import React, { useEffect, useState } from 'react'
+import Input from '../../../../components/Input'
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import router from 'next/router';
-import { signIn } from 'next-auth/react';
+import { signIn, signOut } from 'next-auth/react';
 
 const LoginForm = () => {
 
+    useEffect(() =>{
+        signOut({
+            redirect:false
+        });
+    }, [])
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 

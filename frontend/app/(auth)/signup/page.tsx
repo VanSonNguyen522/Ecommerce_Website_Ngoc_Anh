@@ -1,4 +1,4 @@
-import RegisterFrom from '@/components/RegisterFrom'
+import RegisterFrom from '@/app/(auth)/signup/components/RegisterFrom'
 import Link from 'next/link'
 import React from 'react'
 

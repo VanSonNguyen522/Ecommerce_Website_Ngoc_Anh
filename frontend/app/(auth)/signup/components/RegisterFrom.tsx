@@ -1,16 +1,22 @@
 "use client"
 
-import React, {useState} from 'react'
-import Input from './Input'
+import React, {useEffect, useState} from 'react'
+import Input from '../../../../components/Input'
 import toast from 'react-hot-toast'
 import axios from 'axios'
-import { signIn } from 'next-auth/react'
+import { signIn, signOut } from 'next-auth/react'
 import Email from 'next-auth/providers/email';
 import { useRouter } from 'next/navigation'
 
 
 export default function RegisterFrom() {
-  
+    
+    useEffect(() =>{
+        signOut({
+            redirect:false
+        });
+    }, [])
+
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 

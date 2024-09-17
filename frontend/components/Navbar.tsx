@@ -18,9 +18,35 @@ const Navbar = () => {
     setOpenNav(!openNav);
   };
 
-  const handleSignInClick = () => {
-    router.push('/signin'); // Navigate to /signin when the button is clicked
+  // const handleSignInClick = () => {
+  //   router.push('/signin'); // Navigate to /signin when the button is clicked
+  // };
+  const handleSignInClick = async () => {
+    const isSignedIn = checkIfUserIsSignedIn(); // Replace with your actual sign-in check logic
+    
+    if (isSignedIn) {
+      // Sign out the user
+      await signOutUser(); // Replace with your actual sign-out logic
+      router.push('/'); // Redirect to home or any other page after signing out
+    } else {
+      // Sign in the user
+      router.push('/signin'); // Navigate to sign-in page
+    }
   };
+  
+  // Example functions for checking sign-in state and signing out
+  const checkIfUserIsSignedIn = () => {
+    // Implement your logic to check if the user is signed in
+    // This could involve checking a cookie, localStorage, or some global state
+    return !!localStorage.getItem('userToken'); // Example
+  };
+  
+  const signOutUser = async () => {
+    // Implement your logic to sign out the user
+    // This could involve clearing cookies, localStorage, or making an API call
+    localStorage.removeItem('userToken'); // Example
+  };
+  
 
   if (!mounted) {
     // Prevent rendering during SSR
