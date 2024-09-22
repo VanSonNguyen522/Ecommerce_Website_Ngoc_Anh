@@ -1,55 +1,66 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { useRouter } from 'next/navigation'; // Updated import for Next.js 13+
-import Image from "next/image";
-import NavDropDownMenu from "./NavDropDown_menu"; // Make sure the import path is correct
+import { useRouter } from 'next/navigation'; 
+import { useSession, signOut } from "next-auth/react"; // Import useSession and signOut
+import NavDropDownMenu from "./NavDropDown_menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const Navbar = () => {
   const [openNav, setOpenNav] = useState(false);
   const [mounted, setMounted] = useState(false);
-  const router = useRouter(); // Initialize the router
+  const [message, setMessage] = useState(""); // State for messages
+  const router = useRouter();
+  const { data: session } = useSession(); // Get session data to check login status
 
   useEffect(() => {
-    setMounted(true); // Ensure that client-side logic only runs after the component mounts
+    setMounted(true); 
   }, []);
 
   const handleNavbarClick = () => {
     setOpenNav(!openNav);
   };
 
-  // const handleSignInClick = () => {
-  //   router.push('/signin'); // Navigate to /signin when the button is clicked
-  // };
-  const handleSignInClick = async () => {
-    const isSignedIn = checkIfUserIsSignedIn(); // Replace with your actual sign-in check logic
-    
-    if (isSignedIn) {
-      // Sign out the user
-      await signOutUser(); // Replace with your actual sign-out logic
-      router.push('/'); // Redirect to home or any other page after signing out
+  // Function to handle user navigation for Sign In, Sign Up, and Logout
+  const handleSignInClick = () => {
+    router.push('/signin');
+  };
+
+  const handleSignUpClick = () => {
+    router.push('/signup');
+  };
+
+  const handleLogoutClick = async () => {
+    if (session) {
+      // If the user is logged in, proceed with logout
+      await signOutUser();
+      setMessage("You have successfully logged out.");
     } else {
-      // Sign in the user
-      router.push('/signin'); // Navigate to sign-in page
+      // If the user is not logged in, show a message
+      setMessage("You are not logged in.");
     }
+
+    // Clear the message after 3 seconds and redirect
+    setTimeout(() => {
+      setMessage(""); 
+      router.push('/');
+    }, 3000);
   };
-  
-  // Example functions for checking sign-in state and signing out
-  const checkIfUserIsSignedIn = () => {
-    // Implement your logic to check if the user is signed in
-    // This could involve checking a cookie, localStorage, or some global state
-    return !!localStorage.getItem('userToken'); // Example
-  };
-  
+
+  // Function to sign out user (you might replace this with actual sign-out logic)
   const signOutUser = async () => {
-    // Implement your logic to sign out the user
-    // This could involve clearing cookies, localStorage, or making an API call
-    localStorage.removeItem('userToken'); // Example
+    await signOut({ redirect: false }); // Use NextAuth signOut function
+    // You can also clear local storage or handle other sign-out processes here
   };
-  
 
   if (!mounted) {
-    // Prevent rendering during SSR
     return null;
   }
 
@@ -60,26 +71,14 @@ const Navbar = () => {
         <div className="container mx-auto flex justify-between items-center">
           <div className="flex items-center space-x-2">
             <button className="text-gray-700 lg:hidden" onClick={handleNavbarClick}>
-              <svg
-                className="w-6 h-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4 6h16M4 12h16m-7 6h7"
-                ></path>
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7"></path>
               </svg>
             </button>
             <img className="w-12 h-12" src="/assets/images/LOGO.png" alt="Logo" />
             <div className="text-lg font-bold">Ngọc Ánh</div>
           </div>
 
-          {/* Search Bar */}
           <div className="hidden lg:flex items-center space-x-2">
             <input
               type="text"
@@ -87,19 +86,8 @@ const Navbar = () => {
               className="border rounded-full py-2 px-4 w-80"
             />
             <button className="text-gray-600 hover:text-red-600 duration-200">
-              <svg
-                className="w-6 h-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                ></path>
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
               </svg>
             </button>
           </div>
@@ -110,55 +98,49 @@ const Navbar = () => {
               <NavDropDownMenu />
             </button>
 
-            {/* Sign-In Button */}
-            <button className="text-gray-600" onClick={handleSignInClick}>
-              <svg
-                className="w-6 h-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-                ></path>
-              </svg>
-            </button>
+            {/* Dropdown Menu for Account Actions */}
+            <div>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"></path>
+                  </svg>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="flex flex-col w-[150px] h-auto text-2xl items-center">
+                  <DropdownMenuLabel>Account</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={handleSignInClick}>Sign In</DropdownMenuItem>
+                  <DropdownMenuItem onClick={handleSignUpClick}>Sign Up</DropdownMenuItem>
+                  <DropdownMenuItem onClick={handleLogoutClick}>Logout</DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
           </div>
         </div>
       </div>
 
+      {/* Success/Error Message */}
+      {message && (
+        <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded absolute top-16 right-10" role="alert">
+          <span className="block sm:inline">{message}</span>
+        </div>
+      )}
+
       {/* Page and Contact */}
       <div className="container mx-auto flex justify-between items-center p-4">
-        {/* Only render this menu if `openNav` is true */}
+        {/* Conditional Rendering of Mobile Menu */}
         {openNav && (
           <nav className="lg:hidden flex flex-col space-y-4">
-            <a href="/" className="text-gray-600 hover:text-blue-600">
-              Home
-            </a>
-            <a href="/product" className="text-gray-600 hover:text-blue-600">
-              Product
-            </a>
-            <a href="/about" className="text-gray-600 hover:text-blue-600">
-              About
-            </a>
+            <a href="/" className="text-gray-600 hover:text-blue-600">Home</a>
+            <a href="/product" className="text-gray-600 hover:text-blue-600">Product</a>
+            <a href="/about" className="text-gray-600 hover:text-blue-600">About</a>
           </nav>
         )}
 
         <nav className="hidden lg:flex space-x-4">
-          <a href="/" className="text-gray-600 hover:text-blue-600">
-            Home
-          </a>
-          <a href="/product" className="text-gray-600 hover:text-blue-600">
-            Product
-          </a>
-          <a href="/about" className="text-gray-600 hover:text-blue-600">
-            About
-          </a>
+          <a href="/" className="text-gray-600 hover:text-blue-600">Home</a>
+          <a href="/product" className="text-gray-600 hover:text-blue-600">Product</a>
+          <a href="/about" className="text-gray-600 hover:text-blue-600">About</a>
         </nav>
         <span className="text-gray-600 hidden lg:block">Contact: 0914132797</span>
       </div>
