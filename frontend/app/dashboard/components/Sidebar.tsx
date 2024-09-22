@@ -1,5 +1,5 @@
-
 import Link from 'next/link';
+import { FaHome, FaProductHunt, FaUser, FaShoppingCart, FaFileInvoice } from 'react-icons/fa';  // Import icons
 
 const Sidebar = () => {
   return (
@@ -9,30 +9,34 @@ const Sidebar = () => {
       </div>
 
       <nav className="flex flex-col gap-4 p-4">
-        <Link href="/dashboard"
-          className="flex items-center gap-2 hover:bg-gray-700 p-2 rounded">
-            {/* <HomeIcon className="w-5 h-5" /> */}
+        <Link href="/dashboard" className="flex items-center gap-2 hover:bg-gray-700 p-2 rounded">
+            <FaHome className="w-5 h-5" />
             Home
         </Link>
 
         <Link href="/dashboard/Product" className="flex items-center gap-2 hover:bg-gray-700 p-2 rounded">
-            {/* <ChartBarIcon className="w-5 h-5" /> */}
+            <FaProductHunt className="w-5 h-5" />
             Product
         </Link>
 
         <Link href="/dashboard/Profile" className="flex items-center gap-2 hover:bg-gray-700 p-2 rounded">
-            {/* <UserIcon className="w-5 h-5" /> */}
+            <FaUser className="w-5 h-5" />
             Profile
         </Link>
 
         <Link href="/dashboard/Cart" className="flex items-center gap-2 hover:bg-gray-700 p-2 rounded">
-            {/* <UserIcon className="w-5 h-5" /> */}
+            <FaShoppingCart className="w-5 h-5" />
             Cart
         </Link>
 
         <Link href="/dashboard/Bill" className="flex items-center gap-2 hover:bg-gray-700 p-2 rounded">
-            {/* <UserIcon className="w-5 h-5" /> */}
+            <FaFileInvoice className="w-5 h-5" />
             Bill
+        </Link>
+
+        <Link href="/" className="flex items-center gap-2 hover:bg-gray-700 p-2 rounded">
+            <FaHome className="w-5 h-5" />
+            HomePage 
         </Link>
       </nav>
     </aside>

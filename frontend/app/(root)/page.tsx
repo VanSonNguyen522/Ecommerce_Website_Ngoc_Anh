@@ -9,6 +9,7 @@ const App: React.FC = async () => {
     <div>
       {/* <div>Hello: {session?.user?.email}</div> */}
       <HomePage/>
+      
     </div>
   );
 };

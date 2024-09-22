@@ -6,9 +6,12 @@ import HotFeatures from '@/app/Pages/HomePage/Components/HotFeatures'
 import Product_Demo from '@/app/Pages/HomePage/Components/Product_Demo'
 import Customer_Response from '@/app/Pages/HomePage/Components/Customer_Resposne'
 import Footer from '@/components/Footer'
+import MyComponents from '@/components/test'
+import CreateAdminButton from '@/components/CreateAdminButton'
 const HomePage = () => {
   return (
     <div>
+      <MyComponents />
       <Navbar />
       <Content />
       <Hero />
@@ -16,6 +19,7 @@ const HomePage = () => {
       <Product_Demo />
       <Customer_Response />
       <Footer />
+      {/* <CreateAdminButton /> */}
     </div>
   )
 }
