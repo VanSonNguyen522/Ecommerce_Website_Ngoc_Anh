@@ -2,23 +2,24 @@
 
 import { FormEvent, useState } from 'react';
 
-const ProductForm = () => {
+const ProductCreateForm = () => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
+  const [image, setImage] = useState(''); 
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const res = await fetch('/api/products', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, description, price }),
+      body: JSON.stringify({ name, description, price, image }), // Gửi thêm dữ liệu hình ảnh
     });
-  
+
     if (res.ok) {
-      console.log("Product created successfully");
+      console.log('Product created successfully');
     } else {
-      console.log("Failed to create product");
+      console.log('Error creating product');
     }
   };
   
@@ -54,6 +55,16 @@ const ProductForm = () => {
         />
       </div>
 
+      <div>
+        <label className="block text-gray-700">Product Image URL</label>
+        <input
+          type="text"
+          value={image}
+          onChange={(e) => setImage(e.target.value)}
+          className="w-full p-2 border border-gray-300 rounded"
+        />
+      </div>
+
       <button
         type="submit"
         className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-500"
@@ -64,4 +75,4 @@ const ProductForm = () => {
   );
 };
 
-export default ProductForm;
+export default ProductCreateForm;
