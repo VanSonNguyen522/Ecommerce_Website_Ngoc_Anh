@@ -1,6 +1,7 @@
 "use client"
 
 import { FormEvent, useState } from 'react';
+import { toast } from 'react-hot-toast';
 
 const ProductCreateForm = () => {
   const [name, setName] = useState('');
@@ -18,8 +19,10 @@ const ProductCreateForm = () => {
 
     if (res.ok) {
       console.log('Product created successfully');
+      toast.success("Product posted successfully!");
     } else {
       console.log('Error creating product');
+      toast.error("Failed to post product."); 
     }
   };
   
