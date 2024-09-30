@@ -14,7 +14,7 @@ const Sidebar = () => {
             Home
         </Link>
 
-        <Link href="/dashboard/Product" className="flex items-center gap-2 hover:bg-gray-700 p-2 rounded">
+        <Link href="/dashboard/products" className="flex items-center gap-2 hover:bg-gray-700 p-2 rounded">
             <FaProductHunt className="w-5 h-5" />
             Product
         </Link>
