@@ -1,5 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,6 +11,20 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 const NavDropDownMenu = () => {
+  const router = useRouter()
+
+  const handleDashboardClick = () => {
+    router.push('/dashboard'); // Navigate to the dashboard
+  };
+  const handleHomaPageClick = () => {
+    router.push('/');
+  }
+  const handleProductPageClick = () => {
+    router.push('/product');
+  }
+  const handleAboutPageClick = () => {
+    router.push('/about')
+  }
   return (
     <div>
       <DropdownMenu>
@@ -26,12 +41,13 @@ const NavDropDownMenu = () => {
         <DropdownMenuContent className="flex flex-col w-[150px] h-auto text-2xl items-center">
           <DropdownMenuLabel>Menu</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>Home</DropdownMenuItem>
-          <DropdownMenuItem>Product</DropdownMenuItem>
+          <DropdownMenuItem onClick={handleHomaPageClick}>Home</DropdownMenuItem>
+          <DropdownMenuItem onClick={handleProductPageClick}>Product</DropdownMenuItem>
           <DropdownMenuItem>Profile</DropdownMenuItem>
-          <DropdownMenuItem>About</DropdownMenuItem>
+          <DropdownMenuItem onClick={handleAboutPageClick}>About</DropdownMenuItem>
           <DropdownMenuItem>Contact</DropdownMenuItem>
           <DropdownMenuItem>Favorite</DropdownMenuItem>
+          <DropdownMenuItem onClick={handleDashboardClick}>Dashboard</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </div>
