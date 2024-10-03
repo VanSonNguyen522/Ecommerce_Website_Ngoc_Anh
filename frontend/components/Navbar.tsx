@@ -12,6 +12,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import toast from "react-hot-toast";
 
 const Navbar = () => {
   const [openNav, setOpenNav] = useState(false);
@@ -41,15 +42,17 @@ const Navbar = () => {
     if (session) {
       // If the user is logged in, proceed with logout
       await signOutUser();
-      setMessage("You have successfully logged out.");
+      // setMessage("You have successfully logged out.");
+      toast.success("You have successfully logged out.");
     } else {
       // If the user is not logged in, show a message
-      setMessage("You are not logged in.");
+      // setMessage("You are not logged in.");
+      toast.error("You are not logged in.");
     }
 
     // Clear the message after 3 seconds and redirect
     setTimeout(() => {
-      setMessage(""); 
+      setMessage("");
       router.push('/');
     }, 3000);
   };

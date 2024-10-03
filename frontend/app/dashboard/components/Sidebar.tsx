@@ -19,7 +19,7 @@ const Sidebar = () => {
             Product
         </Link>
 
-        <Link href="/dashboard/Profile" className="flex items-center gap-2 hover:bg-gray-700 p-2 rounded">
+        <Link href="/dashboard/users" className="flex items-center gap-2 hover:bg-gray-700 p-2 rounded">
             <FaUser className="w-5 h-5" />
             Profile
         </Link>
@@ -36,7 +36,7 @@ const Sidebar = () => {
 
         <Link href="/" className="flex items-center gap-2 hover:bg-gray-700 p-2 rounded">
             <FaHome className="w-5 h-5" />
-            HomePage 
+            HomePage
         </Link>
       </nav>
     </aside>
