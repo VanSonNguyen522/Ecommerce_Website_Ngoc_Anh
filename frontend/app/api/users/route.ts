@@ -97,22 +97,24 @@ export async function POST(req: Request) {
 }
 
 // PUT - Update an existing user by ID
+// PUT - Update an existing user by email
 export async function PUT(req: Request) {
-  // Extract the id from the URL
-  const urlSegments = req.url.split('/');
-  const id = urlSegments.pop(); // Get the last part of the URL, which should be the ID
+  const { email, name } = await req.json();
 
-  // Check if id is valid
-  if (!id) {
-    return NextResponse.json({ error: "User ID is required" }, { status: 400 });
+  // Check if email is provided
+  if (!email) {
+    return NextResponse.json({ error: "Email is required" }, { status: 400 });
   }
 
-  const { name, email, role } = await req.json();
+  // Check if name is provided
+  if (!name) {
+    return NextResponse.json({ error: "Name is required" }, { status: 400 });
+  }
 
   try {
     const updatedUser = await prismadb.user.update({
-      where: { id },
-      data: { name, email, role }
+      where: { email }, // Use email instead of ID
+      data: { name }, // Update only the name
     });
 
     return NextResponse.json(updatedUser);
@@ -120,6 +122,7 @@ export async function PUT(req: Request) {
     return NextResponse.json({ error: 'Error updating user' }, { status: 500 });
   }
 }
+
 
 export async function DELETE(req: Request) {
   try {

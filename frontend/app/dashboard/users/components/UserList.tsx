@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import Button from './ButtonUserList'; // Import the Button component
 
 interface User {
   id: string;
@@ -90,19 +91,16 @@ const UserList = () => {
 
       {/* Refresh and Delete Selected Buttons */}
       <div className="flex justify-between mb-4">
-        <button
-          onClick={fetchUsers}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-        >
+        <Button onClick={fetchUsers}>
           Refresh
-        </button>
-        <button
+        </Button>
+        <Button
           onClick={handleBulkDelete}
-          disabled={selectedUsers.length === 0}
-          className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+          disabled={selectedUsers.length === 0} // Disable if no user selected
+          className="bg-red-500 hover:bg-red-700" // Custom class for delete button
         >
           Delete Selected
-        </button>
+        </Button>
       </div>
 
       {/* Search by Email */}
@@ -114,47 +112,36 @@ const UserList = () => {
           onChange={(e) => setSearchEmail(e.target.value)}
           className="border p-2 rounded mr-2"
         />
-        <button
-          onClick={handleSearchByEmail}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-        >
+        <Button onClick={handleSearchByEmail}>
           Search by Email
-        </button>
+        </Button>
       </div>
 
       {/* User Table */}
-      <table className="min-w-full bg-white border border-gray-300">
+      <table className="min-w-full divide-y divide-gray-200">
         <thead>
           <tr>
-            <th className="py-2 text-left border-b">Select</th>
-            <th className="py-2 text-left border-b">Name</th>
-            <th className="py-2 text-left border-b">Email</th>
-            <th className="py-2 text-left border-b">Role</th>
+            <th className="px-4 py-2">Select</th>
+            <th className="px-4 py-2">Name</th>
+            <th className="px-4 py-2">Email</th>
+            <th className="px-4 py-2">Role</th>
           </tr>
         </thead>
         <tbody>
-          {currentUsers.length === 0 ? (
-            <tr>
-              <td colSpan={4} className="text-left py-4">
-                No users found.
+          {currentUsers.map(user => (
+            <tr key={user.id}>
+              <td className="px-4 py-2">
+                <input 
+                  type="checkbox" 
+                  checked={selectedUsers.includes(user.id)} // Check if user is selected
+                  onChange={() => handleCheckboxChange(user.id)} // Call the handler on change
+                />
               </td>
+              <td className="px-4 py-2">{user.name}</td>
+              <td className="px-4 py-2">{user.email}</td>
+              <td className="px-4 py-2">{user.role}</td>
             </tr>
-          ) : (
-            currentUsers.map((user) => (
-              <tr key={user.id}>
-                <td className="py-2 text-left border-b">
-                  <input
-                    type="checkbox"
-                    checked={selectedUsers.includes(user.id)}
-                    onChange={() => handleCheckboxChange(user.id)}
-                  />
-                </td>
-                <td className="py-2 text-left border-b">{user.name || 'N/A'}</td>
-                <td className="py-2 text-left border-b">{user.email}</td>
-                <td className="py-2 text-left border-b">{user.role}</td>
-              </tr>
-            ))
-          )}
+          ))}
         </tbody>
       </table>
 
