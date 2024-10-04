@@ -16,29 +16,24 @@ const EditProductForm: React.FC = () => {
   const [loading, setLoading] = useState(false);
 
   const validateProductId = async (id: string): Promise<boolean> => {
-    const response = await fetch(`/api/products/${id}`);
-    return response.ok; // Trả về true nếu sản phẩm tồn tại
+    try {
+      const response = await fetch(`/api/products?id=${productId}`);
+      return response.ok; // Trả về true nếu sản phẩm tồn tại
+    } catch (error) {
+      console.error('Error validating product ID:', error);
+      return false;
+    }
   };
-  // Handle form submission to update the product
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
-    
+  
     // Kiểm tra sự tồn tại của sản phẩm
     const isValidId = await validateProductId(productId);
     if (!isValidId) {
       toast.error('Product ID not found. Please enter a valid Product ID.');
       setLoading(false);
-      console.log({
-        name,
-        description,
-        price,
-        image,
-        category,
-        status,
-        isNew,
-        isOnSale,
-      });
       return;
     }
   
@@ -46,40 +41,34 @@ const EditProductForm: React.FC = () => {
       const response = await fetch(`/api/products/${productId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          name: name || undefined, 
-          description: description || undefined, 
-          price: price ? parseFloat(price) : undefined, 
-          image: image || undefined, 
-          category: category || undefined, 
-          status: status || undefined, 
-          isNew, 
-          isOnSale 
+        body: JSON.stringify({
+          name: name || undefined,
+          description: description || undefined,
+          price: price ? parseFloat(price) : undefined,
+          image: image || undefined,
+          category: category || undefined,
+          status: status || undefined,
+          isNew,
+          isOnSale,
         }),
       });
   
       if (response.ok) {
         toast.success('Product updated successfully');
       } else {
-        const errorResponse = await response.json();
-        toast.error(`Failed to update product: ${errorResponse.error || 'Unknown error'}`);
+        const responseText = await response.text(); // Đọc phản hồi dưới dạng text
+        try {
+          const errorResponse = JSON.parse(responseText); // Thử phân tích cú pháp nếu có thể
+          toast.error(`Failed to update product: ${errorResponse.error || 'Unknown error'}`);
+        } catch {
+          toast.error('Failed to update product: Unexpected server response.');
+        }
       }
     } catch (error) {
       console.error('Error updating product:', error);
       toast.error('Failed to update product');
-      console.log({
-        name,
-        description,
-        price,
-        image,
-        category,
-        status,
-        isNew,
-        isOnSale,
-      });
     } finally {
       setLoading(false);
-      console.log('Product ID:', productId);
     }
   };
   
@@ -102,6 +91,7 @@ const EditProductForm: React.FC = () => {
         </div>
 
         {/* Other Fields - Optional */}
+        {/* Product Name */}
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2">Product Name</label>
           <input
@@ -112,6 +102,7 @@ const EditProductForm: React.FC = () => {
           />
         </div>
 
+        {/* Description */}
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2">Description</label>
           <textarea
@@ -121,6 +112,7 @@ const EditProductForm: React.FC = () => {
           />
         </div>
 
+        {/* Price */}
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2">Price</label>
           <input
@@ -131,6 +123,7 @@ const EditProductForm: React.FC = () => {
           />
         </div>
 
+        {/* Image URL */}
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2">Image URL</label>
           <input
@@ -141,6 +134,7 @@ const EditProductForm: React.FC = () => {
           />
         </div>
 
+        {/* Category */}
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2">Category</label>
           <select
@@ -156,6 +150,7 @@ const EditProductForm: React.FC = () => {
           </select>
         </div>
 
+        {/* Status */}
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2">Status (Optional)</label>
           <select
@@ -171,6 +166,7 @@ const EditProductForm: React.FC = () => {
           </select>
         </div>
 
+        {/* Is New */}
         <div className="flex items-center mb-4">
           <input
             type="checkbox"
@@ -181,6 +177,7 @@ const EditProductForm: React.FC = () => {
           <label className="text-gray-700">Is New</label>
         </div>
 
+        {/* Is On Sale */}
         <div className="flex items-center mb-4">
           <input
             type="checkbox"
@@ -191,6 +188,7 @@ const EditProductForm: React.FC = () => {
           <label className="text-gray-700">Is On Sale</label>
         </div>
 
+        {/* Submit Button */}
         <button
           type="submit"
           className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"

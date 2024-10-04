@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 
 export async function GET(request: Request, { params }: { params: { productId: string } }) {
     const { productId } = params;
-    console.log('Fetching product with ID:', productId); // Debugging line
+    console.log(productId)
   
     try {
       const product = await prisma.product.findUnique({
@@ -24,10 +24,6 @@ export async function GET(request: Request, { params }: { params: { productId: s
     }
   }
   
-  
-
-// app/api/products/[productId]/route.ts
-
 
 export async function PUT(request: Request, { params }: { params: { productId: string } }) {
   const { productId } = params;
