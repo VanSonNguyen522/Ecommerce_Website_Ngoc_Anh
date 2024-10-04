@@ -2,26 +2,6 @@
 import { NextResponse } from 'next/server';
 import prismadb from "@/libs/prismadb";
 import bcrypt from "bcrypt"
-// GET - Fetch users or search by email
-// export async function GET(req: Request) {
-//   try {
-//     // Extract the search email from the request URL query params
-//     const { searchParams } = new URL(req.url);
-//     const email = searchParams.get('email');
-
-//     // If an email is provided in the query params, search by email
-//     const users = await prismadb.user.findMany({
-//       where: {
-//         role: 'user', // Optional: Only get users with role "user"
-//         ...(email && { email }), // Apply email filter only if it's provided
-//       },
-//     });
-
-//     return NextResponse.json(users);
-//   } catch (error) {
-//     return NextResponse.json({ error: 'Error fetching users' }, { status: 500 });
-//   }
-// }
 
 export async function GET(req: Request) {
   try {
