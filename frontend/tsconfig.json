@@ -27,6 +27,6 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "types/**/*.d.ts"  // Add this line
-  ],
+, "addAccounts.js"  ],
   "exclude": ["node_modules"]
 }

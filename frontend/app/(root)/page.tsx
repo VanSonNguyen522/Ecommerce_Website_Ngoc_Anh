@@ -1,7 +1,8 @@
 
 import { getServerSession } from "next-auth";
-import HomePage from "../Pages/HomePage/HomePage";
+import HomePage from "../pages/HomePage/HomePage";
 import { authOptions } from "@/libs/AuthOptions";
+
 
 const App: React.FC = async () => {
   const  session = await getServerSession(authOptions)
@@ -9,7 +10,6 @@ const App: React.FC = async () => {
     <div>
       {/* <div>Hello: {session?.user?.email}</div> */}
       <HomePage/>
-      
     </div>
   );
 };
