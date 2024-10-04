@@ -20,12 +20,29 @@ model User {
 
 }
 
+// model Product {
+//   id          String  @id @default(auto()) @map("_id") @db.ObjectId
+//   name        String
+//   description String
+//   price       Float
+//   image       String?
+  
+//   createdAt   DateTime @default(now())
+// }
+
 model Product {
-  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
   name        String
   description String
   price       Float
-  image       String?
+  oldPrice    Float?   // Giá cũ, có thể null
+  category    String   // Danh mục sản phẩm
+  image       String?  // Đường dẫn ảnh sản phẩm
+  isNew       Boolean? @default(false)  // Sản phẩm mới
+  isOnSale    Boolean? @default(false)  // Đang giảm giá
+  status      String?  // Trạng thái sản phẩm, có thể null
   
-  createdAt   DateTime @default(now())
+  createdAt   DateTime @default(now())  // Thời gian tạo sản phẩm
+  updatedAt   DateTime @updatedAt       // Tự động cập nhật khi có thay đổi
 }
+

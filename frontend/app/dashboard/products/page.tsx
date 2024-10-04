@@ -2,6 +2,7 @@
 
 import { Sidebar } from "../components/Sidebar";
 import DashboardLayout from "../DashboardLayout";
+import EditProductForm from "./components/EditProductForms";
 import ProductCreateForm from "./components/ProductForms";
 import ProductList from "./components/ProductsList";
 
@@ -16,6 +17,7 @@ const ProductsPage = () => {
         <h1 className="text-2xl font-bold mb-6">Products Dashboard Page</h1>
         <ProductCreateForm />
         <ProductList />
+        <EditProductForm/>
     </DashboardLayout>
   );
 };
