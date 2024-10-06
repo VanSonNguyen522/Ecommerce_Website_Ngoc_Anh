@@ -1,4 +1,7 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
+import fs from 'fs';
+import path from 'path';
+import formidable from 'formidable';
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
@@ -9,7 +12,7 @@ export async function POST(req: Request) {
       name, 
       description, 
       price, 
-      image, 
+      image,  // Expecting an image URL or base64
       category, 
       status, 
       isNew, 
@@ -39,11 +42,11 @@ export async function POST(req: Request) {
         name,
         description,
         price: parseFloat(price),
-        image,
+        image: image || null, // Use image URL or set to null if not provided
         category, // Include category
         status: status || null, // Allow status to be optional
-        isNew: isNew || false, // Default to false if not provided
-        isOnSale: isOnSale || false, // Default to false if not provided
+        isNew: isNew === 'true', // Convert string 'true' to boolean
+        isOnSale: isOnSale === 'true', // Convert string 'true' to boolean
       },
     });
 
@@ -57,6 +60,85 @@ export async function POST(req: Request) {
   }
 }
 
+// export const config = {
+//   api: {
+//     bodyParser: false, // Tắt body parser mặc định
+//   },
+// };
+
+
+// export async function POST(req: NextRequest) {
+//   const form = formidable({ multiples: true });
+
+//   return new Promise((resolve, reject) => {
+//     form.parse(req as any, async (err, fields, files) => {
+//       if (err) {
+//         console.error('Error parsing form:', err);
+//         return resolve(NextResponse.json({ message: 'Internal server error' }, { status: 500 }));
+//       }
+
+//       try {
+//         const { name, description, price, oldPrice, category, status, isNew, isOnSale } = fields;
+
+//         // Kiểm tra các trường bắt buộc
+//         if (!name || !description || !price || !category) {
+//           return resolve(NextResponse.json(
+//             { message: 'Missing required fields' },
+//             { status: 400 }
+//           ));
+//         }
+
+//         // Xử lý file
+//         const uploadDir = path.join(process.cwd(), 'assets', 'products');
+
+//         // Kiểm tra và tạo thư mục nếu cần
+//         if (!fs.existsSync(uploadDir)) {
+//           fs.mkdirSync(uploadDir, { recursive: true });
+//         }
+
+//         let imagePath: string | null = null;
+
+//         // Kiểm tra files.image và di chuyển file
+//         if (files.image && Array.isArray(files.image) && files.image.length > 0) {
+//           const file = files.image[0];
+//           if (file.originalFilename) {
+//             const filePath = path.join(uploadDir, file.originalFilename);
+//             fs.renameSync(file.filepath, filePath);
+//             imagePath = `/assets/products/${file.originalFilename}`;  // Sử dụng đường dẫn tương đối
+//           }
+//         }
+
+//         // Tạo sản phẩm mới
+//         const newProduct = await prisma.product.create({
+//           data: {
+//             name: name.toString(),
+//             description: description.toString(),
+//             price: parseFloat(price.toString()), // Chuyển đổi giá thành số
+//             oldPrice: oldPrice ? parseFloat(oldPrice.toString()) : null, // Chuyển đổi giá cũ thành số, hoặc null
+//             category: category.toString(),
+//             image: imagePath, // Đường dẫn hình ảnh tương đối
+//             isNew: Array.isArray(isNew) ? isNew[0] === 'true' : false, // Chuyển đổi chuỗi sang boolean
+//             isOnSale: Array.isArray(isOnSale) ? isOnSale[0] === 'true' : false,// Chuyển đổi chuỗi sang boolean
+//             status: status ? status.toString() : null, // Chuyển đổi trạng thái thành chuỗi hoặc null
+//           },
+//         });
+
+//         return resolve(NextResponse.json(
+//           { message: 'Product created successfully!', product: newProduct },
+//           { status: 201 }
+//         ));
+//       } catch (error) {
+//         console.error('Error creating product:', error);
+//         return resolve(NextResponse.json(
+//           { message: 'Internal server error' },
+//           { status: 500 }
+//         ));
+//       } finally {
+//         await prisma.$disconnect();
+//       }
+//     });
+//   });
+// }
 
 
 

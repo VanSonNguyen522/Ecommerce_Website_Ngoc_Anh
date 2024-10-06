@@ -31,32 +31,32 @@ const ProductCreateForm = () => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    let finalImage = image;
+    // let finalImage = image;
 
-    // Handle file upload if a file is selected
-    if (imageFile) {
-      const formData = new FormData();
-      formData.append('file', imageFile);
-      formData.append('productName', name); // Send product name for the filename
+    //Handle file upload if a file is selected
+    // if (imageFile) {
+    //   const formData = new FormData();
+    //   formData.append('file', imageFile);
+    //   formData.append('productName', name); // Send product name for the filename
 
-      const uploadRes = await fetch('/api/upload', {
-        method: 'POST',
-        body: formData,
-      });
+    //   const uploadRes = await fetch('/api/products', {
+    //     method: 'POST',
+    //     body: formData,
+    //   });
 
-      if (uploadRes.ok) {
-        const { filePath } = await uploadRes.json();
-        finalImage = filePath; // Get the file path returned from the upload API
-      } else {
-        toast.error("Failed to upload image.");
-        return;
-      }
-    }
+    //   if (uploadRes.ok) {
+    //     const { filePath } = await uploadRes.json();
+    //     finalImage = filePath; // Get the file path returned from the upload API
+    //   } else {
+    //     toast.error("Failed to upload image.");
+    //     return;
+    //   }
+    // }
 
     const res = await fetch('/api/products', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, description, price, finalImage, category, status, isNew, isOnSale }),
+      body: JSON.stringify({ name, description, price, image, category, status, isNew, isOnSale }),
     });
 
     if (res.ok) {
@@ -77,6 +77,51 @@ const ProductCreateForm = () => {
       toast.error("Failed to post product.");
     }
   };
+  // const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
+  
+  //   const formData = new FormData();
+  //   formData.append('name', name);
+  //   formData.append('description', description);
+  //   formData.append('price', price);
+  //   formData.append('category', category);
+  //   formData.append('status', status);
+  //   formData.append('isNew', isNew.toString());
+  //   formData.append('isOnSale', isOnSale.toString());
+  
+  //   // Handle file upload if a file is selected
+  //   if (imageFile) {
+  //     formData.append('image', imageFile); // Change here to 'image'
+  //   } else {
+  //     formData.append('image', image); // Send the image URL if no file is selected
+  //   }
+  
+  //   const res = await fetch('/api/products', {
+  //     method: 'POST',
+  //     body: formData,
+  //   });
+  
+  //   const data = await res.json(); // Get response JSON
+  //   console.log('Response Data:', data); // Log the response data
+
+  //   if (res.ok) {
+  //     console.log('Product created successfully');
+  //     toast.success("Product posted successfully!");
+  //     // Reset form after submission
+  //     setName('');
+  //     setDescription('');
+  //     setPrice('');
+  //     setImage('');
+  //     setImageFile(null); // Clear the uploaded file
+  //     setCategory('sắt hộp');
+  //     setStatus(''); // Reset status to empty
+  //     setIsNew(false);
+  //     setIsOnSale(false);
+  //   } else {
+  //     console.log('Error creating product:', data); // Log the error response
+  //     toast.error("Failed to post product.");
+  //   }
+  // };
 
   return (
     <div className="flex items-center justify-center h-screen p-4">
