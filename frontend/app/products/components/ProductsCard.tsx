@@ -1,5 +1,7 @@
+"use client";
 import React from 'react';
-import { ShoppingCartIcon } from '@heroicons/react/outline'; // Correct import for Heroicons v1
+import { useRouter } from 'next/navigation';
+import { ShoppingCartIcon } from '@heroicons/react/outline';
 
 interface Product {
   id: string;
@@ -14,9 +16,28 @@ interface Product {
   status?: string | null;
 }
 
-const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
+interface ProductCardProps {
+  product: Product;
+  onAddToCart?: (product: Product) => void;
+}
+
+const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => {
+  const router = useRouter();
+
+  const handleProductClick = () => {
+    router.push(`/products/${product.id}`); // Điều hướng đến trang chi tiết sản phẩm
+  };
+
+  const handleAddToCartClick = (event: React.MouseEvent) => {
+    event.stopPropagation(); // Prevent the card click from also triggering
+    onAddToCart && onAddToCart(product); // Call onAddToCart if it's provided
+  };
+
   return (
-    <div className="border border-gray-200 rounded-md shadow-md p-4 hover:shadow-lg transition-shadow flex flex-col h-full">
+    <div
+      onClick={handleProductClick}
+      className="border border-gray-200 rounded-md shadow-md p-4 hover:shadow-lg transition-shadow flex flex-col h-full cursor-pointer"
+    >
       {product.image && (
         <img
           src={product.image}
@@ -26,14 +47,15 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
       )}
       <div className="flex items-center justify-between mb-2">
         <h2 className="text-lg font-semibold">{product.name}</h2>
-        <div className="relative">
-          <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center hover:bg-green-600 transition duration-200 cursor-pointer">
-            <ShoppingCartIcon className="h-5 w-5 text-gray-500 hover:text-white transition duration-200" aria-hidden="true" />
-          </div>
+        <div
+          onClick={handleAddToCartClick}
+          className="relative w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center hover:bg-green-600 transition duration-200 cursor-pointer"
+        >
+          <ShoppingCartIcon className="h-5 w-5 text-gray-500 hover:text-white transition duration-200" aria-hidden="true" />
         </div>
       </div>
       <p className="text-gray-600 mb-2">{product.description}</p>
-      <p className="text-xl font-bold mb-2 flex-grow">${product.price.toFixed(2)}</p>
+      <p className="text-xl font-bold mb-2">${product.price.toFixed(2)}</p>
       {product.oldPrice && (
         <p className="text-sm line-through text-gray-500">
           Old Price: ${product.oldPrice.toFixed(2)}

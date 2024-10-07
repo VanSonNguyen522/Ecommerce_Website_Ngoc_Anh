@@ -1,11 +1,11 @@
-"use client";
+"use client"
 import React, { useEffect, useState } from 'react';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import ProductCard from './components/ProductsCard';
 import SearchBar from './components/SearchBar';
 import CategorySelector from './components/CategorySelect';
-import { Button } from '@/components/ui/button'; // Import Button component
+import { Button } from '@/components/ui/button';
 
 interface Product {
   id: string;
@@ -26,12 +26,11 @@ const ProductsPage: React.FC = () => {
   const [searchParams, setSearchParams] = useState({ name: '' });
   const [selectedCategory, setSelectedCategory] = useState('');
 
-  // Fetch products on initial mount
   useEffect(() => {
     const fetchInitialProducts = async () => {
       setStatus('loading');
       try {
-        const response = await fetch('/api/productsPage'); // Fetch all products
+        const response = await fetch('/api/productsPage');
         if (!response.ok) {
           throw new Error('Failed to fetch products');
         }
@@ -45,14 +44,13 @@ const ProductsPage: React.FC = () => {
     };
 
     fetchInitialProducts();
-  }, []); // Empty dependency array to run only once on mount
+  }, []);
 
   const fetchProducts = async () => {
     setStatus('loading');
     try {
       const query = new URLSearchParams();
 
-      // Add search parameter only if it exists
       if (searchParams.name) {
         query.set('name', searchParams.name);
       }
@@ -75,30 +73,28 @@ const ProductsPage: React.FC = () => {
   };
 
   const handleSearch = () => {
-    fetchProducts(); // Fetch products based on current search parameters
+    fetchProducts();
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
-    setSearchParams({ name: value }); // Update searchParams without fetching
-    setSelectedCategory(''); // Reset selected category when entering a new search
+    setSearchParams({ name: value });
+    setSelectedCategory('');
   };
 
   const handleCategorySelect = (category: string) => {
-    setSelectedCategory(category); // Set selected category
-    setSearchParams({ name: '' }); // Clear the search input when selecting a category
-    fetchProducts(); // Fetch products based on the selected category
+    setSelectedCategory(category);
+    setSearchParams({ name: '' });
+    fetchProducts();
   };
 
-  // New function to reload all products
   const handleReload = async () => {
-    setSearchParams({ name: '' }); // Reset search parameters
-    setSelectedCategory(''); // Reset selected category
-    await fetchProducts(); // Fetch all products
+    setSearchParams({ name: '' });
+    setSelectedCategory('');
+    await fetchProducts();
   };
 
   const handleAddToCart = (product: Product) => {
-    // Logic to add product to cart
     console.log(`Added ${product.name} to cart.`);
   };
 
@@ -116,18 +112,16 @@ const ProductsPage: React.FC = () => {
       <div className="container mx-auto p-6">
         <h1 className="text-4xl font-bold mb-6 text-center text-gray-800">Products</h1>
         
-        {/* Center SearchBar above CategorySelector */}
         <div className="flex justify-center mb-4">
           <SearchBar
             searchParams={searchParams}
             onChange={handleInputChange}
-            onSearch={handleSearch} // Pass the search handler to SearchBar
+            onSearch={handleSearch}
           />
         </div>
 
         <CategorySelector onCategorySelect={handleCategorySelect} />
         
-        {/* Move Reload button below the CategorySelector */}
         <div className="flex justify-center mb-6">
           <Button
             onClick={handleReload}
@@ -137,11 +131,10 @@ const ProductsPage: React.FC = () => {
           </Button>
         </div>
 
-        {/* Updated grid layout for Product Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {products.map((product) => (
-            <div key={product.id} className="p-4"> {/* Keep padding for the grid item */}
-              <ProductCard product={product} onAddToCart={handleAddToCart} /> {/* Directly render ProductCard */}
+            <div key={product.id} className="p-4">
+              <ProductCard product={product} onAddToCart={handleAddToCart} />
             </div>
           ))}
         </div>
