@@ -142,7 +142,7 @@ const Navbar = () => {
 
         <nav className="hidden lg:flex space-x-4">
           <a href="/" className="text-gray-600 hover:text-blue-600">Home</a>
-          <a href="/product" className="text-gray-600 hover:text-blue-600">Product</a>
+          <a href="/products" className="text-gray-600 hover:text-blue-600">Product</a>
           <a href="/about" className="text-gray-600 hover:text-blue-600">About</a>
         </nav>
         <span className="text-gray-600 hidden lg:block">Contact: 0914132797</span>

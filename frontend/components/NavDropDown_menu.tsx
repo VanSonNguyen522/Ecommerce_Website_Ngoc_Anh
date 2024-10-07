@@ -80,7 +80,7 @@ const NavDropDownMenu = () => {
     router.push('/');
   };
   const handleProductPageClick = () => {
-    router.push('/product');
+    router.push('/products');
   };
   const handleAboutPageClick = () => {
     router.push('/about');
