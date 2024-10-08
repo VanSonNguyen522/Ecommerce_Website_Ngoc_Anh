@@ -191,7 +191,8 @@ const ProductCreateForm = () => {
             <option value="sắt hộp">Sắt Hộp</option>
             <option value="ván gỗ">Ván Gỗ</option>
             <option value="lưới b40">Lưới B40</option>
-            <option value="tôn lạnh xốp">Tôn Lạnh Xốp</option>
+            <option value="tôn lạnh">Tôn Lạnh</option>
+            <option value="xốp">Xốp</option>
             <option value="ván symbo">Ván Symbo</option>
           </select>
         </div>

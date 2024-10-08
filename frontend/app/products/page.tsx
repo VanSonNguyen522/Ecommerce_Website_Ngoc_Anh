@@ -26,6 +26,7 @@ const ProductsPage: React.FC = () => {
   const [searchParams, setSearchParams] = useState({ name: '' });
   const [selectedCategory, setSelectedCategory] = useState('');
 
+  // Fetch all products when the page loads
   useEffect(() => {
     const fetchInitialProducts = async () => {
       setStatus('loading');
@@ -42,10 +43,10 @@ const ProductsPage: React.FC = () => {
         setStatus('failed');
       }
     };
-
     fetchInitialProducts();
   }, []);
 
+  // Fetch products based on search or category
   const fetchProducts = async () => {
     setStatus('loading');
     try {
@@ -72,28 +73,33 @@ const ProductsPage: React.FC = () => {
     }
   };
 
+  // Handle search functionality
   const handleSearch = () => {
     fetchProducts();
   };
 
+  // Handle input change in search
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     setSearchParams({ name: value });
-    setSelectedCategory('');
+    setSelectedCategory(''); // Clear category if searching by name
   };
 
+  // Handle category selection
   const handleCategorySelect = (category: string) => {
     setSelectedCategory(category);
-    setSearchParams({ name: '' });
+    setSearchParams({ name: '' }); // Clear search if filtering by category
     fetchProducts();
   };
 
+  // Reload all products by clearing filters
   const handleReload = async () => {
     setSearchParams({ name: '' });
     setSelectedCategory('');
     await fetchProducts();
   };
 
+  // Handle adding products to cart
   const handleAddToCart = (product: Product) => {
     console.log(`Added ${product.name} to cart.`);
   };
@@ -112,6 +118,7 @@ const ProductsPage: React.FC = () => {
       <div className="container mx-auto p-6">
         <h1 className="text-4xl font-bold mb-6 text-center text-gray-800">Products</h1>
         
+        {/* Search Bar */}
         <div className="flex justify-center mb-4">
           <SearchBar
             searchParams={searchParams}
@@ -120,8 +127,10 @@ const ProductsPage: React.FC = () => {
           />
         </div>
 
+        {/* Category Selector */}
         <CategorySelector onCategorySelect={handleCategorySelect} />
         
+        {/* Reload Button */}
         <div className="flex justify-center mb-6">
           <Button
             onClick={handleReload}
@@ -131,6 +140,7 @@ const ProductsPage: React.FC = () => {
           </Button>
         </div>
 
+        {/* Product List */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {products.map((product) => (
             <div key={product.id} className="p-4">
