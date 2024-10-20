@@ -170,7 +170,7 @@ const ProductCreateForm = () => {
           />
         </div>
 
-        {/* <div>
+        <div>
           <label className="block text-gray-700">Upload Image</label>
           <input
             type="file"
@@ -178,7 +178,7 @@ const ProductCreateForm = () => {
             className="w-full p-2 border border-gray-300 rounded"
             accept="image/*"
           />
-        </div> */}
+        </div>
 
         <div>
           <label className="block text-gray-700">Category</label>
