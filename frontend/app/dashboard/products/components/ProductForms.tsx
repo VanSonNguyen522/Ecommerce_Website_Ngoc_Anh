@@ -170,7 +170,7 @@ const ProductCreateForm = () => {
           />
         </div>
 
-        {/* <div>
+        <div>
           <label className="block text-gray-700">Upload Image</label>
           <input
             type="file"
@@ -178,7 +178,7 @@ const ProductCreateForm = () => {
             className="w-full p-2 border border-gray-300 rounded"
             accept="image/*"
           />
-        </div> */}
+        </div>
 
         <div>
           <label className="block text-gray-700">Category</label>
@@ -191,7 +191,8 @@ const ProductCreateForm = () => {
             <option value="sắt hộp">Sắt Hộp</option>
             <option value="ván gỗ">Ván Gỗ</option>
             <option value="lưới b40">Lưới B40</option>
-            <option value="tôn lạnh xốp">Tôn Lạnh Xốp</option>
+            <option value="tôn lạnh">Tôn Lạnh</option>
+            <option value="xốp">Xốp</option>
             <option value="ván symbo">Ván Symbo</option>
           </select>
         </div>

@@ -1,48 +1,251 @@
+// // schema.prisma
+
+// generator client {
+//   provider = "prisma-client-js"
+//   binaryTargets = ["native", "windows"]
+// }
+
+// datasource db {
+//   provider = "mongodb"
+//   url      = env("DATABASE_URL")
+// }
+
+// enum Role {
+//   USER
+//   ADMIN_SHOP
+//   ADMIN
+// }
+
+// model User {
+//   id             String    @id @default(auto()) @map("_id") @db.ObjectId
+//   email          String    @unique
+//   hashedPassword String
+//   name           String
+//   role           Role      @default(USER)
+//   createdAt      DateTime  @default(now())
+//   updatedAt      DateTime  @updatedAt
+//   profile        Profile?
+//   orders         Order[]
+//   favorites      Favorite[]
+//   carts          Cart[]
+// }
+
+// model Product {
+//   id          String    @id @default(auto()) @map("_id") @db.ObjectId
+//   name        String
+//   description String
+//   price       Float
+//   oldPrice    Float?
+//   category    String
+//   image       String?
+//   isNew       Boolean?  @default(false)
+//   isOnSale    Boolean?  @default(false)
+//   status      String?
+//   createdAt   DateTime  @default(now())
+//   updatedAt   DateTime  @updatedAt
+//   orderItems  OrderItem[]
+//   carts       Cart[]
+//   favorites   Favorite[]
+// }
+
+// model Order {
+//   id         String     @id @default(auto()) @map("_id") @db.ObjectId
+//   userId     String     @db.ObjectId
+//   shopId     String     @db.ObjectId
+//   status     String     @default("pending")
+//   totalPrice Float
+//   createdAt  DateTime   @default(now())
+//   updatedAt  DateTime   @updatedAt
+//   user       User       @relation(fields: [userId], references: [id])
+//   orderItems OrderItem[]
+// }
+
+// model OrderItem {
+//   id        String   @id @default(auto()) @map("_id") @db.ObjectId
+//   orderId   String   @db.ObjectId
+//   productId String   @db.ObjectId
+//   quantity  Int
+//   price     Float
+//   order     Order    @relation(fields: [orderId], references: [id])
+//   product   Product  @relation(fields: [productId], references: [id])
+// }
+
+// model Favorite {
+//   id        String   @id @default(auto()) @map("_id") @db.ObjectId
+//   userId    String   @db.ObjectId
+//   productId String   @db.ObjectId
+//   createdAt DateTime @default(now())
+//   user      User     @relation(fields: [userId], references: [id])
+//   product   Product  @relation(fields: [productId], references: [id])
+
+//   @@unique([userId, productId])
+// }
+
+// model Cart {
+//   id        String   @id @default(auto()) @map("_id") @db.ObjectId
+//   userId    String   @db.ObjectId
+//   productId String   @db.ObjectId
+//   quantity  Int      @default(1)
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+//   user      User     @relation(fields: [userId], references: [id])
+//   product   Product  @relation(fields: [productId], references: [id])
+
+//   @@unique([userId, productId])
+// }
+
+// model Profile {
+//   id          String   @id @default(auto()) @map("_id") @db.ObjectId
+//   userId      String   @db.ObjectId @unique
+//   firstName   String?
+//   lastName    String?
+//   phoneNumber String?
+//   address     String?
+//   city        String?
+//   country     String?
+//   createdAt   DateTime @default(now())
+//   updatedAt   DateTime @updatedAt
+//   user        User     @relation(fields: [userId], references: [id])
+// }
+
+// generator client {
+// provider = "prisma-client-js"
+// binaryTargets = ["native", "windows"]
+// }
+// datasource db {
+// provider = "mongodb"
+// url = env("DATABASE_URL")
+// }
+
+// model User {
+
+// id String @id @default(auto()) @map("_id") @db.ObjectId
+// email String @unique
+// hashedPassword String
+// name String
+// role String @default("user")
+
+// createdAt DateTime @default(now())
+// updatedAt DateTime @updatedAt
+
+// }
+// model Product {
+// id String @id @default(auto()) @map("_id") @db.ObjectId
+// name String
+// description String
+// price Float
+// oldPrice Float? // Giá cũ, có thể null
+// category String // Danh mục sản phẩm
+// image String? // Đường dẫn ảnh sản phẩm
+// isNew Boolean? @default(false) // Sản phẩm mới
+// isOnSale Boolean? @default(false) // Đang giảm giá
+// status String? // Trạng thái sản phẩm, có thể null
+// createdAt DateTime @default(now()) // Thời gian tạo sản phẩm
+// updatedAt DateTime @updatedAt // Tự động cập nhật khi có thay đổi
+// }
+
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
   binaryTargets = ["native", "windows"]
 }
+
 datasource db {
   provider = "mongodb"
   url      = env("DATABASE_URL")
 }
 
-model User {
-
-  id            String          @id @default(auto()) @map("_id") @db.ObjectId
-  email         String    @unique
-  hashedPassword String
-  name           String
-  role           String   @default("user")
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-}
+// model User {
+//   id             String   @id @default(auto()) @map("_id") @db.ObjectId
+//   email          String   @unique
+//   hashedPassword String
+//   name           String
+//   role           String   @default("user")
+//   createdAt      DateTime @default(now())
+//   updatedAt      DateTime @updatedAt
+// }
 
 // model Product {
-//   id          String  @id @default(auto()) @map("_id") @db.ObjectId
+//   id          String   @id @default(auto()) @map("_id") @db.ObjectId
 //   name        String
 //   description String
 //   price       Float
-//   image       String?
-  
-//   createdAt   DateTime @default(now())
+//   oldPrice    Float? // Giá cũ, có thể null
+//   category    String // Danh mục sản phẩm
+//   image       String? // Đường dẫn ảnh sản phẩm
+//   isNew       Boolean? @default(false) // Sản phẩm mới
+//   isOnSale    Boolean? @default(false) // Đang giảm giá
+//   status      String? // Trạng thái sản phẩm, có thể null
+//   createdAt   DateTime @default(now()) // Thời gian tạo sản phẩm
+//   updatedAt   DateTime @updatedAt // Tự động cập nhật khi có thay đổi
 // }
 
-model Product {
+// model Cart {
+//   id        String     @id @default(auto()) @map("_id") @db.ObjectId
+//   userId    String     @db.ObjectId // Liên kết với người dùng
+//   items     CartItem[] @relation("CartItems") // Mối quan hệ với CartItem
+//   createdAt DateTime   @default(now()) // Thời gian tạo giỏ hàng
+//   updatedAt DateTime   @updatedAt // Thời gian cập nhật
+// }
+
+// model CartItem {
+//   id        String   @id @default(auto()) @map("_id") @db.ObjectId
+//   cartId    String   @db.ObjectId // Liên kết với giỏ hàng
+//   productId String   @db.ObjectId // Liên kết với sản phẩm
+//   quantity  Int      @default(1) // Số lượng sản phẩm
+//   createdAt DateTime @default(now()) // Thời gian tạo mục giỏ hàng
+//   updatedAt DateTime @updatedAt // Thời gian cập nhật
+
+//   // Adding the relation field to link back to Cart
+//   cart Cart @relation("CartItems", fields: [cartId], references: [id])
+// }
+
+
+model Cart {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId      String   @db.ObjectId // Liên kết với người dùng
+  items       CartItem[] // Mối quan hệ với CartItem
+  isDelivered  Boolean  @default(false) // Trạng thái giao hàng, mặc định là false
+  user        User     @relation(fields: [userId], references: [id]) // Liên kết với mô hình User
+  createdAt   DateTime @default(now()) // Thời gian tạo
+  updatedAt   DateTime @updatedAt // Thời gian cập nhật
+}
+
+
+model User {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  email         String   @unique
+  hashedPassword String
+  name          String
+  role           String   @default("user")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  carts         Cart[]   // Link back to Cart for reverse lookup
+}
+
+model CartItem {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  cartId    String   @db.ObjectId // Link to Cart
+  productId String   @db.ObjectId // Link to Product
+  quantity  Int      @default(1) // Quantity of the product
+  createdAt DateTime @default(now()) // Creation timestamp
+  updatedAt DateTime @updatedAt // Update timestamp
+
+  cart      Cart     @relation(fields: [cartId], references: [id]) // Define relation back to Cart
+  product   Product  @relation(fields: [productId], references: [id]) // Define relation to Product
+}
+
+model Product {
+  id          String     @id @default(auto()) @map("_id") @db.ObjectId
   name        String
   description String
   price       Float
-  oldPrice    Float?   // Giá cũ, có thể null
-  category    String   // Danh mục sản phẩm
-  image       String?  // Đường dẫn ảnh sản phẩm
-  isNew       Boolean? @default(false)  // Sản phẩm mới
-  isOnSale    Boolean? @default(false)  // Đang giảm giá
-  status      String?  // Trạng thái sản phẩm, có thể null
-  
-  createdAt   DateTime @default(now())  // Thời gian tạo sản phẩm
-  updatedAt   DateTime @updatedAt       // Tự động cập nhật khi có thay đổi
+  oldPrice    Float?     // Old price, can be null
+  category    String     // Product category
+  image       String?    // Product image URL
+  isNew       Boolean?   @default(false) // New product flag
+  isOnSale    Boolean?   @default(false) // Sale flag
+  status      String?    // Product status, can be null
+  createdAt   DateTime   @default(now()) // Creation timestamp
+  updatedAt   DateTime   @updatedAt // Update timestamp
+  cartItems   CartItem[] // Link back to CartItem for reverse lookup
 }
-

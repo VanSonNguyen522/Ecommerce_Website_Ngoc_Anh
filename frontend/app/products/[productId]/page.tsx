@@ -1,6 +1,8 @@
 "use client";
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
+import toast from 'react-hot-toast';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
@@ -21,6 +23,8 @@ const ProductDetailPage: React.FC<{ params: { productId: string } }> = ({ params
   const { productId } = params;
   const [product, setProduct] = useState<Product | null>(null);
   const [status, setStatus] = useState<'idle' | 'loading' | 'failed'>('idle');
+  const { data: session } = useSession();
+  const userId = session?.user?.id;
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -41,6 +45,38 @@ const ProductDetailPage: React.FC<{ params: { productId: string } }> = ({ params
 
     fetchProduct();
   }, [productId]);
+
+  const handleAddToCart = async () => {
+    if (!product) return;
+    
+    if (!userId) {
+      toast.error('Please login to add items to cart');
+      return;
+    }
+
+    try {
+      const response = await fetch('/api/cart', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId,
+          productId: product.id,
+          quantity: 1,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to add item to cart');
+      }
+
+      toast.success(`${product.name} added to cart`);
+    } catch (error) {
+      console.error('Error adding to cart:', error);
+      toast.error('Failed to add item to cart');
+    }
+  };
 
   if (status === 'loading') {
     return <div className="flex items-center justify-center min-h-screen">Loading...</div>;
@@ -76,12 +112,28 @@ const ProductDetailPage: React.FC<{ params: { productId: string } }> = ({ params
               </p>
             )}
             <div className="flex space-x-4">
-              <button className="bg-blue-600 text-white px-6 py-3 rounded-md shadow-md hover:bg-blue-700 transition duration-300">
+              <button 
+                onClick={handleAddToCart}
+                className="bg-blue-600 text-white px-6 py-3 rounded-md shadow-md hover:bg-blue-700 transition duration-300"
+              >
                 Add to Cart
               </button>
               <button className="bg-green-600 text-white px-6 py-3 rounded-md shadow-md hover:bg-green-700 transition duration-300">
                 Buy Now
               </button>
+            </div>
+            {/* Product Status Badges */}
+            <div className="flex items-center mt-4 space-x-2">
+              {product.isNew && (
+                <span className="bg-green-100 text-green-800 text-xs font-medium px-2 py-1 rounded-full">
+                  New
+                </span>
+              )}
+              {product.isOnSale && (
+                <span className="bg-red-100 text-red-800 text-xs font-medium px-2 py-1 rounded-full">
+                  On Sale
+                </span>
+              )}
             </div>
           </div>
         </div>
@@ -96,7 +148,7 @@ const ProductDetailPage: React.FC<{ params: { productId: string } }> = ({ params
         <div className="mt-8 bg-white p-6 rounded-lg shadow-md">
           <h2 className="text-2xl font-bold mb-4">More About This Product</h2>
           <p className="text-gray-700 mb-2">
-            There’s nothing I really wanted to do in life that I wasn’t able to get good at. That’s my skill. I’m not really specifically talented at anything except for the ability to learn.
+            There's nothing I really wanted to do in life that I wasn't able to get good at. That's my skill. I'm not really specifically talented at anything except for the ability to learn.
           </p>
           <h3 className="text-xl font-semibold mb-2">Benefits:</h3>
           <ul className="list-disc list-inside text-gray-700">

@@ -1,22 +1,3 @@
-// import { NextResponse } from 'next/server';
-// import type { NextRequest } from 'next/server';
-
-// export function middleware(req: NextRequest) {
-//   const token = req.cookies.get('token');
-
-//   const url = req.nextUrl.clone();
-
-// //   if (!token) {
-// //     url.pathname = '/signin'; // Điều hướng về trang đăng nhập nếu không có token
-// //     return NextResponse.redirect(url);
-// //   }
-
-//   return NextResponse.next();
-// }
-
-// export const config = {
-//   matcher: ['/dashboard/:path*'], // Bảo vệ tất cả các route bắt đầu bằng /dashboard
-// };
 import { NextResponse } from 'next/server';
 import { getToken } from 'next-auth/jwt';
 import type { NextRequest } from 'next/server'; // Import kiểu dữ liệu NextRequest

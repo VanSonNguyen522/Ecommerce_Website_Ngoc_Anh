@@ -1,7 +1,8 @@
-"use client";
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import { ShoppingCartIcon } from '@heroicons/react/outline';
+import toast from 'react-hot-toast';
+import { useSession } from 'next-auth/react';
 
 interface Product {
   id: string;
@@ -23,14 +24,45 @@ interface ProductCardProps {
 
 const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => {
   const router = useRouter();
+  
+  const { data: session } = useSession();
+  const userId = session?.user?.id;
 
   const handleProductClick = () => {
-    router.push(`/products/${product.id}`); // Điều hướng đến trang chi tiết sản phẩm
+    router.push(`/products/${product.id}`);
   };
 
-  const handleAddToCartClick = (event: React.MouseEvent) => {
-    event.stopPropagation(); // Prevent the card click from also triggering
-    onAddToCart && onAddToCart(product); // Call onAddToCart if it's provided
+  const handleAddToCartClick = async (event: React.MouseEvent) => {
+    event.stopPropagation();
+    
+    if (!userId) {
+      toast.error('Please login to add items to cart');
+      return;
+    }
+
+    try {
+      const response = await fetch('/api/cart', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId,
+          productId: product.id,
+          quantity: 1,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to add item to cart');
+      }
+
+      toast.success(`${product.name} added to cart`);
+      onAddToCart && onAddToCart(product);
+    } catch (error) {
+      console.error('Error adding to cart:', error);
+      toast.error('Failed to add item to cart');
+    }
   };
 
   return (

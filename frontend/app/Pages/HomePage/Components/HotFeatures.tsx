@@ -2,49 +2,88 @@
 
 import React, { useRef } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
+import { ShoppingCartIcon } from '@heroicons/react/outline';
+import toast from 'react-hot-toast';
+import { useSession } from 'next-auth/react';
 
 interface Product {
-  id: string;  // ID sẽ là string, do Prisma sử dụng ObjectId
+  id: string;
   name: string;
-  price: number;  // Sử dụng kiểu number thay vì string cho giá
-  oldPrice?: number;  // Giá cũ, có thể null
-  image?: string;  // Đường dẫn ảnh sản phẩm, có thể null
-  isNew?: boolean;  // Sản phẩm mới
-  isOnSale?: boolean;  // Đang giảm giá
+  price: number;
+  oldPrice?: number;
+  image?: string;
+  isNew?: boolean;
+  isOnSale?: boolean;
 }
 
-const ProductCard: React.FC<Product> = ({ name, price, oldPrice, image, isNew, isOnSale }) => {
+const ProductCard: React.FC<Product> = ({ id, name, price, oldPrice, image, isNew, isOnSale }) => {
+  const { data: session } = useSession();
+  const userId = session?.user?.id;
+
+  const handleAddToCart = async (e: React.MouseEvent) => {
+    e.preventDefault(); // Prevent navigation when clicking the cart button
+    
+    if (!userId) {
+      toast.error('Please login to add items to cart');
+      return;
+    }
+
+    try {
+      const response = await fetch('/api/cart', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId,
+          productId: id,
+          quantity: 1,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to add item to cart');
+      }
+
+      toast.success(`${name} added to cart`);
+    } catch (error) {
+      console.error('Error adding to cart:', error);
+      toast.error('Failed to add item to cart');
+    }
+  };
+
   return (
-    <div className="relative w-72 h-80 p-6 bg-white border-solid border-2 rounded-lg shadow-lg text-left flex-shrink-0">
-      {isNew && <span className="absolute top-2 left-2 px-3 py-1 bg-green-500 text-white text-xs rounded">New</span>}
-      {isOnSale && <span className="absolute top-2 left-2 px-3 py-1 bg-red-500 text-white text-xs rounded">Sale</span>}
-      <div className="flex justify-center items-center h-36 mb-5">
-        <Image src={image || '/placeholder.jpg'} alt={name} width={200} height={200} className="rounded-lg object-cover py-2 p-4" />
+    <Link href={`/products/${id}`} className="block">
+      <div className="relative w-72 h-80 p-6 bg-white border-solid border-2 rounded-lg shadow-lg text-left flex-shrink-0 hover:shadow-xl transition-shadow duration-300">
+        {isNew && <span className="absolute top-2 left-2 px-3 py-1 bg-green-500 text-white text-xs rounded">New</span>}
+        {isOnSale && <span className="absolute top-2 left-2 px-3 py-1 bg-red-500 text-white text-xs rounded">Sale</span>}
+        <div className="flex justify-center items-center h-36 mb-5">
+          <Image src={image || '/placeholder.jpg'} alt={name} width={200} height={200} className="rounded-lg object-cover py-2 p-4" />
+        </div>
+        <div className="flex justify-between items-center mb-2 py-4">
+          <h3 className="text-lg font-bold">{name}</h3>
+          <button 
+            className="bg-gray-200 p-2 rounded-full hover:bg-green-200 hover:scale-110 transition-transform duration-200"
+            onClick={handleAddToCart}
+          >
+            <ShoppingCartIcon className="w-4 h-4" />
+          </button>
+        </div>
+        <p className="text-lg font-semibold">
+          {oldPrice ? (
+            <>
+              <span className="text-red-500 line-through mr-2">{price.toLocaleString()} vnd</span>
+              <span className="text-black">{oldPrice.toLocaleString()} vnd</span>
+            </>
+          ) : (
+            <span>{price.toLocaleString()} vnd</span>
+          )}
+        </p>
       </div>
-      <div className="flex justify-between items-center mb-2 py-4 ">
-        <h3 className="text-lg font-bold">{name}</h3>
-        <button className="bg-gray-200 p-2 rounded-full hover:scale-110 transition-transforms duration-200 hover:bg-green-200">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
-            <circle cx="9" cy="21" r="1"></circle>
-            <circle cx="20" cy="21" r="1"></circle>
-            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61l1.38-7.38H6"></path>
-          </svg>
-        </button>
-      </div>
-      <p className="text-lg font-semibold">
-        {oldPrice ? (
-          <>
-            <span className="text-red-500 line-through mr-2">{price.toLocaleString()} vnd</span>
-            <span className="text-black">{oldPrice.toLocaleString()} vnd</span>
-          </>
-        ) : (
-          <span>{price.toLocaleString()} vnd</span>
-        )}
-      </p>
-    </div>
+    </Link>
   );
 };
-
 
 const HotFeatures: React.FC = () => {
   const [products, setProducts] = React.useState<Product[]>([]);
@@ -63,7 +102,7 @@ const HotFeatures: React.FC = () => {
   const scroll = (direction: 'left' | 'right') => {
     if (scrollRef.current) {
       scrollRef.current.scrollBy({
-        left: direction === 'left' ? -308 : 308,  // Scroll by one card width
+        left: direction === 'left' ? -308 : 308,
         behavior: 'smooth',
       });
     }
@@ -84,7 +123,7 @@ const HotFeatures: React.FC = () => {
         <div
           ref={scrollRef}
           className="flex overflow-x-scroll scroll-smooth scrollbar-hide space-x-5"
-          style={{ width: '1220px' }} // Fixed width for 4 cards
+          style={{ width: '1220px' }}
         >
           {products.map((product) => (
             <ProductCard key={product.id} {...product} />

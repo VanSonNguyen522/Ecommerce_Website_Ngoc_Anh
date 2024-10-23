@@ -103,8 +103,8 @@ const NavDropDownMenu = () => {
         <DropdownMenuContent className="flex flex-col w-[150px] h-auto text-2xl items-center">
           <DropdownMenuLabel>Menu</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={handleHomePageClick}>Home</DropdownMenuItem>
-          <DropdownMenuItem onClick={handleProductPageClick}>Product</DropdownMenuItem>
+          {/* <DropdownMenuItem onClick={handleHomePageClick}>Home</DropdownMenuItem>
+          <DropdownMenuItem onClick={handleProductPageClick}>Product</DropdownMenuItem> */}
           <DropdownMenuItem>Profile</DropdownMenuItem>
           <DropdownMenuItem onClick={handleAboutPageClick}>About</DropdownMenuItem>
           <DropdownMenuItem>Contact</DropdownMenuItem>
