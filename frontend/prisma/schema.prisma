@@ -164,37 +164,75 @@ model User {
   updatedAt      DateTime @updatedAt
 }
 
+// model Product {
+//   id          String   @id @default(auto()) @map("_id") @db.ObjectId
+//   name        String
+//   description String
+//   price       Float
+//   oldPrice    Float? // Giá cũ, có thể null
+//   category    String // Danh mục sản phẩm
+//   image       String? // Đường dẫn ảnh sản phẩm
+//   isNew       Boolean? @default(false) // Sản phẩm mới
+//   isOnSale    Boolean? @default(false) // Đang giảm giá
+//   status      String? // Trạng thái sản phẩm, có thể null
+//   createdAt   DateTime @default(now()) // Thời gian tạo sản phẩm
+//   updatedAt   DateTime @updatedAt // Tự động cập nhật khi có thay đổi
+// }
+
+// model Cart {
+//   id        String     @id @default(auto()) @map("_id") @db.ObjectId
+//   userId    String     @db.ObjectId // Liên kết với người dùng
+//   items     CartItem[] @relation("CartItems") // Mối quan hệ với CartItem
+//   createdAt DateTime   @default(now()) // Thời gian tạo giỏ hàng
+//   updatedAt DateTime   @updatedAt // Thời gian cập nhật
+// }
+
+// model CartItem {
+//   id        String   @id @default(auto()) @map("_id") @db.ObjectId
+//   cartId    String   @db.ObjectId // Liên kết với giỏ hàng
+//   productId String   @db.ObjectId // Liên kết với sản phẩm
+//   quantity  Int      @default(1) // Số lượng sản phẩm
+//   createdAt DateTime @default(now()) // Thời gian tạo mục giỏ hàng
+//   updatedAt DateTime @updatedAt // Thời gian cập nhật
+
+//   // Adding the relation field to link back to Cart
+//   cart Cart @relation("CartItems", fields: [cartId], references: [id])
+// }
+
+model Cart {
+  id        String     @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String     @db.ObjectId
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  items     CartItem[]
+}
+
+model CartItem {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  cartId    String   @db.ObjectId
+  productId String   @db.ObjectId
+  quantity  Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  cart      Cart     @relation(fields: [cartId], references: [id])
+  product   Product  @relation(fields: [productId], references: [id])
+
+  @@index([cartId])
+  @@index([productId])
+}
+
 model Product {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   name        String
   description String
   price       Float
-  oldPrice    Float? // Giá cũ, có thể null
-  category    String // Danh mục sản phẩm
-  image       String? // Đường dẫn ảnh sản phẩm
-  isNew       Boolean? @default(false) // Sản phẩm mới
-  isOnSale    Boolean? @default(false) // Đang giảm giá
-  status      String? // Trạng thái sản phẩm, có thể null
-  createdAt   DateTime @default(now()) // Thời gian tạo sản phẩm
-  updatedAt   DateTime @updatedAt // Tự động cập nhật khi có thay đổi
-}
-
-model Cart {
-  id        String     @id @default(auto()) @map("_id") @db.ObjectId
-  userId    String     @db.ObjectId // Liên kết với người dùng
-  items     CartItem[] @relation("CartItems") // Mối quan hệ với CartItem
-  createdAt DateTime   @default(now()) // Thời gian tạo giỏ hàng
-  updatedAt DateTime   @updatedAt // Thời gian cập nhật
-}
-
-model CartItem {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  cartId    String   @db.ObjectId // Liên kết với giỏ hàng
-  productId String   @db.ObjectId // Liên kết với sản phẩm
-  quantity  Int      @default(1) // Số lượng sản phẩm
-  createdAt DateTime @default(now()) // Thời gian tạo mục giỏ hàng
-  updatedAt DateTime @updatedAt // Thời gian cập nhật
-
-  // Adding the relation field to link back to Cart
-  cart Cart @relation("CartItems", fields: [cartId], references: [id])
+  oldPrice    Float?
+  category    String
+  image       String?
+  isNew       Boolean    @default(false)
+  isOnSale    Boolean    @default(false)
+  status      String?
+  cartItems   CartItem[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
 }
