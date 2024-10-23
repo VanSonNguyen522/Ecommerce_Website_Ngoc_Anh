@@ -154,15 +154,15 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id             String   @id @default(auto()) @map("_id") @db.ObjectId
-  email          String   @unique
-  hashedPassword String
-  name           String
-  role           String   @default("user")
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-}
+// model User {
+//   id             String   @id @default(auto()) @map("_id") @db.ObjectId
+//   email          String   @unique
+//   hashedPassword String
+//   name           String
+//   role           String   @default("user")
+//   createdAt      DateTime @default(now())
+//   updatedAt      DateTime @updatedAt
+// }
 
 // model Product {
 //   id          String   @id @default(auto()) @map("_id") @db.ObjectId
@@ -199,40 +199,53 @@ model User {
 //   cart Cart @relation("CartItems", fields: [cartId], references: [id])
 // }
 
+
 model Cart {
-  id        String     @id @default(auto()) @map("_id") @db.ObjectId
-  userId    String     @db.ObjectId
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  items     CartItem[]
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId      String   @db.ObjectId // Liên kết với người dùng
+  items       CartItem[] // Mối quan hệ với CartItem
+  isDelivered  Boolean  @default(false) // Trạng thái giao hàng, mặc định là false
+  user        User     @relation(fields: [userId], references: [id]) // Liên kết với mô hình User
+  createdAt   DateTime @default(now()) // Thời gian tạo
+  updatedAt   DateTime @updatedAt // Thời gian cập nhật
+}
+
+
+model User {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  email         String   @unique
+  hashedPassword String
+  name          String
+  role           String   @default("user")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  carts         Cart[]   // Link back to Cart for reverse lookup
 }
 
 model CartItem {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  cartId    String   @db.ObjectId
-  productId String   @db.ObjectId
-  quantity  Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  cart      Cart     @relation(fields: [cartId], references: [id])
-  product   Product  @relation(fields: [productId], references: [id])
+  cartId    String   @db.ObjectId // Link to Cart
+  productId String   @db.ObjectId // Link to Product
+  quantity  Int      @default(1) // Quantity of the product
+  createdAt DateTime @default(now()) // Creation timestamp
+  updatedAt DateTime @updatedAt // Update timestamp
 
-  @@index([cartId])
-  @@index([productId])
+  cart      Cart     @relation(fields: [cartId], references: [id]) // Define relation back to Cart
+  product   Product  @relation(fields: [productId], references: [id]) // Define relation to Product
 }
 
 model Product {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  id          String     @id @default(auto()) @map("_id") @db.ObjectId
   name        String
   description String
   price       Float
-  oldPrice    Float?
-  category    String
-  image       String?
-  isNew       Boolean    @default(false)
-  isOnSale    Boolean    @default(false)
-  status      String?
-  cartItems   CartItem[]
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
+  oldPrice    Float?     // Old price, can be null
+  category    String     // Product category
+  image       String?    // Product image URL
+  isNew       Boolean?   @default(false) // New product flag
+  isOnSale    Boolean?   @default(false) // Sale flag
+  status      String?    // Product status, can be null
+  createdAt   DateTime   @default(now()) // Creation timestamp
+  updatedAt   DateTime   @updatedAt // Update timestamp
+  cartItems   CartItem[] // Link back to CartItem for reverse lookup
 }

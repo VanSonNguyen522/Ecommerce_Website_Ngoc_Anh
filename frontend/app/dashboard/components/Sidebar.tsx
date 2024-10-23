@@ -24,7 +24,7 @@ const Sidebar = () => {
             Profile
         </Link>
 
-        <Link href="/dashboard/Cart" className="flex items-center gap-2 hover:bg-gray-700 p-2 rounded">
+        <Link href="/dashboard/cart" className="flex items-center gap-2 hover:bg-gray-700 p-2 rounded">
             <FaShoppingCart className="w-5 h-5" />
             Cart
         </Link>
