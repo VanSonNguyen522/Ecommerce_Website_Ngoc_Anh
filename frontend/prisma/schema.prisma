@@ -249,3 +249,21 @@ model Product {
   updatedAt   DateTime   @updatedAt // Update timestamp
   cartItems   CartItem[] // Link back to CartItem for reverse lookup
 }
+
+// model Order {
+//   id          String @id @default(auto()) @map("_id") @db.ObjectId
+//   UserId      String @db.ObjectId
+//   orderItems  OrderItems[]
+
+// }
+// model OrderItems {
+//   id          String   @id @default(auto()) @map("_id") @db.ObjectId
+//   OrderId     String   @db.ObjectId
+//   ProductId   String   @db.ObjectId
+//   CartItems   CartItem[]
+//   createdAt   DateTime   @default(now()) // Creation timestamp
+//   updatedAt   DateTime   @updatedAt // Update timestamp
+
+
+// }
+

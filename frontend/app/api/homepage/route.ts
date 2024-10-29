@@ -17,7 +17,15 @@ type Product = {
   createdAt: Date; // Thời gian tạo sản phẩm
   updatedAt: Date; // Thời gian cập nhật sản phẩm
 };
-
+/**
+ * @swagger
+ * /api/homepage:
+ *   get:
+ *     description: Returns a product in database
+ *     responses:
+ *       200:
+ *         description: loaded susses
+ */
 // Handle GET requests (Lấy danh sách sản phẩm cho homepage)
 export async function GET(req: Request) {
   try {
