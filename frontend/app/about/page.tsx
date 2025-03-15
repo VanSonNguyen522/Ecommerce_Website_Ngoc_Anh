@@ -4,7 +4,7 @@ import AboutComponent from './components/AboutComponent';
 import CompanyLinks from './components/CompanyLink';
 import CompanyInfomation1 from './components/CompanyInfomation';
 import CompanyVisionMissionValues from './components/CompanyInformation2';
-
+import Image from 'next/image';
 export default function AboutPage() {
   return (
     <div>

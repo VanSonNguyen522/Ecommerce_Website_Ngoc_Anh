@@ -19,10 +19,10 @@ const Sidebar = () => {
             Product
         </Link>
 
-        <Link href="/dashboard/users" className="flex items-center gap-2 hover:bg-gray-700 p-2 rounded">
+        {/* <Link href="/dashboard/users" className="flex items-center gap-2 hover:bg-gray-700 p-2 rounded">
             <FaUser className="w-5 h-5" />
             Profile
-        </Link>
+        </Link> */}
 
         <Link href="/dashboard/cart" className="flex items-center gap-2 hover:bg-gray-700 p-2 rounded">
             <FaShoppingCart className="w-5 h-5" />
